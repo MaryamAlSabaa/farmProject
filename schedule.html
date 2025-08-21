@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="html">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard</title>
+  <!-- <script src='fullcalendar/dist/index.global.js'></script> -->
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js'></script>
+  <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="css/farmerDashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"> -->
+  <!-- java driver for user guide highlight -->
+  <script src="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.js.iife.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.css"/>
+</head>
+<style>
+    :root{
+  /* --primary-color: #d1d1c5;
+  --secondary-color: #83836f; */
+  --primary-color: #f9f9f9;
+  --secondary-color: #4d6837;
+  --body-color: rgb(252, 252, 252);
+}
+.dark-theme{
+  --primary-color: #121212;
+  --secondary-color: #525252;
+}
+body.dark-theme {
+ color: #888 !important;
+}
+    *{
+        font-weight: 400;
+        font-family: 'SpotifyMixUITitle', sans-serif;
+    }
+    #calendar{
+        margin-inline-start: 87px !important;
+        margin-top: 30px !important;
+    }
+    .fc-scrollgrid-liquid{
+        border-radius: 10px;
+    }
+    .fc-toolbar-chunk{
+        margin-right: 15px !important;
+    }
+    .popover {
+  position: absolute;
+  background-color: #ffffff;      /* crisp white background */
+  border-radius: 16px;           /* soft rounded corners */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25); /* deeper shadow for depth */
+  padding: 20px 18px;
+  width: 300px;
+  z-index: 5000;
+  display: none;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  color: #202124;                 /* dark text for readability */
+  border-left: 5px solid #92ae7b; /* colorful accent bar like Google Calendar */
+}
+
+.popover h2 {
+  font-weight: 600;
+  font-size: 24px;
+  text-decoration: wavy;
+  margin: 0 0 12px 0;
+  color: #678e47; 
+}
+.fc-event-title-container{
+  background-color: #b6c7a9;
+}
+.popover button#closePopover {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  color: #5f6368;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.popover button#closePopover:hover {
+  color: #202124;
+}
+
+.popover div p {
+  margin: 6px 0;
+  line-height: 1.5;
+}
+
+.popover div p strong {
+  color: #3c4043;  /* labels darker */
+}
+
+.popover div p span {
+  color: #202124;  /* data text bold */
+  font-weight: 500;
+}
+
+/* Optional: subtle hover highlight for popover */
+.popover:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s;
+}
+.fc-toolbar-chunk .fc-button-group button{
+  background-color: #71865f;
+}
+.fc-toolbar-chunk .fc-button-group button:hover{
+  background-color: var(--secondary-color);
+}
+.fc-toolbar-chunk .fc-button-group button.selected{
+  background-color: var(--secondary-color);
+}
+.fc-daygrid-event-harness > *{
+  background-color: transparent;
+  border: none;
+}
+.fc-daygrid-day-frame {
+  width: 95px;
+  font-size: 14px;
+}
+.fc-list-event-graphic{
+  display: none;
+}
+.fc-event-main{
+  width: 150px;
+  padding-inline-start: 10px;
+
+}
+.fc-event-main:hover{
+  /* background-color: rgb(234, 234, 234); */
+  background-color: #6e7f5f86;
+  /* color: red; */
+  border-radius: 20px;
+  transition: all 0.3s;
+}
+</style>
+<body> 
+    <div class="sidebar-container" ></div>
+    <div class="header" style="z-index: 3;">
+        <div class="search-box">
+          <i class="fa fa-search"></i>
+          <input type="text" placeholder="Search crops, plants, farm" />
+        </div>
+        <div class="lang-toggle" id="lang-toggle">
+          <span class="lang active" id="en">EN</span>
+          <span class="lang" id="ar">ع</span>
+        </div>
+        <i class="help-btn fa-solid fa-circle-info" id="help"></i>
+        <i class="fa-solid fa-moon" style="margin-left: 26px; font-size: 20px;   transition: all 0.5s;" id="icon"></i>
+        <i class="fa-solid fa-bell" id="alert"></i>
+      </div>
+
+      <div id="eventPopover" class="popover">
+        <div >
+          <h2 id="modalTitle"></h2>
+          <button id="closePopover">&times;</button>
+        </div>
+        <div >
+          <!-- <p><strong>Due:</strong> <span id="modalEnd"></span></p> -->
+          <p><strong>Status:</strong> <span id="modalStatus"></span></p>
+          <p><strong>Assignee:</strong> <span id="modalAssignee"></span></p>
+          <p><strong>Location:</strong> <span id="modalFarm"></span></p>
+          <!-- <p><strong>Structure:</strong> <span id="modalStructure"></span></p> -->
+        </div>
+      </div>
+
+      <!-- <div id="eventModal" class="event-modal">
+        <div class="event-modal-content">
+          <span id="closeModal" class="close-btn">&times;</span>
+          <h3 id="modalTitle"></h3>
+          <p><strong>End:</strong> <span id="modalEnd"></span></p>
+          <p><strong>Status:</strong> <span id="modalStatus"></span></p>
+          <p><strong>Assignee:</strong> <span id="modalAssignee"></span></p>
+          <p><strong>Farm:</strong> <span id="modalFarm"></span></p>
+          <p><strong>Structure:</strong> <span id="modalStructure"></span></p>
+        </div> -->
+      <!-- </div> -->
+      
+    <div class="page-body">
+        <h2 >Schedule</h2>
+      <div id="calendar"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/translation.js"></script>
+    <script src="js/farmerDashboard.js"></script>
+    <script src="js/importHeaderBar.js"></script>
+
+</body>
+<script>
+
+document.addEventListener('DOMContentLoaded', async function() {
+  const { data: { user }, error: authError } = await supa.auth.getUser();
+
+          // adding tasks to the calendar
+ // first get all farms of this user
+const { data: farms } = await supa
+  .from('Farms')
+  .select('User_id')
+  .eq('User_id', user.id);
+
+const farmIds = farms.map(f => f.id);
+const { data: tasks } = await supa
+    .from('tasks')
+    .select(`due_date,
+              priority,status,description,
+              farm:Farms(Farm_name, User_id),
+              assignee: users(Username),
+              structure:FarmStructures(structure_name)
+      `)
+       .in('farm_id', farmIds);
+
+      console.log("user", user.id);
+
+      console.log(tasks);
+  const events = tasks?.map(task => ({
+    title: task.description,
+    start: task.due_date,
+    end: task.due_date,
+    allDay: true,
+    extendedProps: {
+      type: 'task',
+      status: task.status,
+      farm: task.farm.Farm_name,
+      structure: task.structure.structure_name,
+      assignee: task.assignee.Username
+    }
+  })) || [];
+  console.log(tasks)
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            timeZone: 'GST',
+            themeSystem: 'bootstrap5',
+            // height: 'auto',           // let it grow with content
+            contentHeight: 700,    
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+            },
+            // weekNumbers: true,
+            dayMaxEvents: true, 
+            events: events,
+            eventContent: function(arg){
+              let ul = document.createElement('ul');
+              let li = document.createElement('li');
+              li.textContent = arg.event.title;
+
+              li.style.marginInlineStart = '15px';
+              li.style.fontSize = '15px';
+              li.style.color = '#678e47';
+              li.style.listStyleType = 'disc'; 
+              li.style.background = 'transparent';
+              li.style.padding = '0'; 
+
+              ul.appendChild(li);
+              return { domNodes: [ul] };
+            },
+            eventClick: function(info) {
+              // console.log('hh, ', info);
+              const popover = document.getElementById('eventPopover');
+              document.getElementById('modalTitle').textContent = info.event.title;
+              // document.getElementById('modalEnd').textContent = info.event.end || 'N/A';
+              document.getElementById('modalStatus').textContent = info.event.extendedProps.status || 'N/A';
+              document.getElementById('modalAssignee').textContent = info.event.extendedProps.assignee || 'N/A';
+              const farm = info.event.extendedProps.farm || 'N/A';
+              const structure = info.event.extendedProps.structure ? `, ${info.event.extendedProps.structure}` : '';
+              document.getElementById('modalFarm').textContent = farm + structure;
+               //  these 2 lines so that the browser calculate actual size, to avoid misplacing the popover when it goes offwidth, without showing it
+               popover.style.visibility = "hidden";
+               popover.style.display = "block";
+              const rect = info.el.getBoundingClientRect();
+              const popoverWidth = popover.offsetWidth;
+              const popoverHeight = popover.offsetHeight;
+              let left = rect.right + 10;
+              let top = rect.top + window.scrollY;
+
+              // Checking if it goes beyond viewport width
+              if (left + popoverWidth > window.innerWidth) {
+                // show on the left
+                left = rect.left - popoverWidth - 10;
+              }
+
+              if (top + popoverHeight > window.scrollY + window.innerHeight) {
+                top = window.scrollY + window.innerHeight - popoverHeight - 10;
+              }
+
+              popover.style.top = top + "px";
+              popover.style.left = left + "px";
+              popover.style.visibility = "visible";
+              popover.style.display = "block";              
+            }
+            
+        });
+        calendar.render();
+        document.getElementById('closePopover').addEventListener('click', function () {
+            document.getElementById('eventPopover').style.display = 'none'; 
+});
+        
+  });
+</script>
+</html>

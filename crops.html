@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crop Overview</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+ <!-- <link rel="stylesheet" href="css/markYourMap.css" /> -->
+<link rel="stylesheet" href="css/crops.css" />
+<link rel="stylesheet" href="css/farmerDashboard.css" />
+
+
+</head>
+<body>
+  <div class="body-cont">
+  <div class="sidebar-container"></div>
+  <!-- <div class="page-wrapper">  </div> -->
+
+  <div class="header" style="z-index: 2;">
+    <div class="search-box">
+      <i class="fa fa-search"></i>
+      <input type="text" placeholder="Search crops, plants, farm" />
+    </div>
+    <div class="lang-toggle" id="lang-toggle">
+      <span class="lang active" id="en">EN</span>
+      <span class="lang" id="ar">ع</span>
+    </div>
+    <i class="help-btn fa-solid fa-circle-info" id="help"></i>
+    <i class="fa-solid fa-moon" style="margin-left: 26px; font-size: 20px;   transition: all 0.5s;" id="icon"></i>
+    <i class="fa-solid fa-bell" id="alert"></i>
+  </div>
+
+  <div class="main-content" style="margin-inline-start: 100px;">
+    <h1 style="margin-top: 20px;" data-key="cropPageTitle">Crops Overview</h1>
+    <button class="add-new-crop" id="crop-btn">Add New Crop</button>
+    <button class="add-planting" id="add-plnt-btn">Add Planting</button>
+
+  <div class="add-new-crop-content">
+    <div id="modalOverlay-step1" class="modal-overlay hidden">
+      <div class="modal-content">
+        <i class="fa-solid fa-xmark close-modal"></i>
+        <h2>ADD NEW CROP</h2>
+        <form id="cropFormStep1">
+          <label for="cropType">CROP TYPE:</label>
+          <input type="text" id="cropType" placeholder="Crop type" required>
+          <ul id="cropSuggestions" class="suggestions"></ul>
+          <label for="cropSubType">CROP VARIETY:</label>
+          <input type="text" id="cropSubType" placeholder="Crop subtype">
+            <ul id="cropSubtypeSuggestions" class="suggestions"></ul>
+          <button type="button" id="nextToStep2">Next, Planting Details</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- step 2 -->
+      <div id="modalOverlay-step2" class="modal-overlay hidden">
+        <div class="modal-content">
+          <i class="fa-solid fa-xmark close-modal"></i>
+          <h2>Planting Details</h2>
+          <form id="cropFormStep2">
+            <!-- <div class="form-row">
+              <p style="color:black !important;"><strong>Crop ID:</strong> <span id="cropIDDisplay"></span></p>
+            </div>         -->
+            <div class="form-row">
+              <label for="emergeDays" data-key="emergeDays">Days to Emerge:
+                <span class="tooltip-icon" data-tooltip="The number of days it takes for seeds to sprout above the soil surface after planting.">?</span>
+
+              </label>
+              <input type="number" id="emergeDays" required min="1">
+            </div>
+            <div class="form-row">
+              <label for="plantSpacing"  data-key="plantSpacing">Plant Spacing (cm)
+                <span class="tooltip-icon" data-tooltip="Distance between plants in a row (in cm).">?</span>
+              </label>
+              <input type="number" id="plantSpacing" required min="0">
+            </div>
+            <div class="form-row">
+              <label for="rowSpacing" data-key="rowSpacing">Row Spacing (cm)
+              </label>
+              <input type="number" id="rowSpacing" required min="1">
+            </div>
+            <div class="form-row">
+              <label for="plantingDepth" data-key="plantingDepth">Planting Depth (cm)</label>
+              <input type="number" id="plantingDepth" required min="1">
+            </div>
+            <div class="form-row">
+              <label for="avgHeight" data-key="avgHeight">Average Height (cm)</label>
+              <input type="number" id="avgHeight" required min="1">
+            </div>
+            <div class="form-row">
+              <label for="startMethod" data-key="startMethod">Start Method
+              <span class="tooltip-icon" data-tooltip="Indicates how you begin growing the crop.">?</span>
+              </label>
+              <select id="startMethod" required>
+                <option value="">--- Select Start Method ---</option>
+                <option value="direct_sow" title="Sow seeds directly">Direct Seeding</option>
+                <option value="start_in_trays">Start in trays, transplant in ground</option>
+                <option value="transplant">Transplant</option>
+                <option value="container">Container</option>
+                <option value="trays">Grown in trays</option>
+                <option value="rootstock">Root stock</option>
+                <option value="bulbs">Bulbs</option>
+                <option value="grafting">Grafting</option>
+                <option value="layering">Layering</option>
+                <option value="division">Division</option>
+                <!-- <option value="other">Other</option> -->
+              </select>
+              <span class="info-icon" id="infoBtn" style=" display: inline-block;
+                        background: #0c4f86;
+                        color: white;
+                        border-radius: 50%;
+                        width: 20px;
+                        height: 20px;
+                        text-align: center;
+                        line-height: 20px;
+                        cursor: pointer;
+                        margin-inline-start: 5px;">?</span>
+            </div>
+              <div id="infoModal" class="modal2">
+                <div class="modal-content2">
+                  <div class="modal-header">
+                    <h2>Planting Start Methods Explained</h2>
+                    <span class="close">&times;</span>
+                  </div>
+                  <div id="modalBody">
+                    <div class="method-card">
+                      <div class="method-title">Direct Sow</div>
+                      <div class="method-description">
+                        Seeds are planted directly into the soil where the plants will grow. This method is simple and works best for crops that develop quickly or don’t transplant well.
+                      </div>
+                      <div class="method-example">
+                        Example: Carrots, beans, corn.
+                      </div>
+                    </div>
+                  
+                    <div class="method-card">
+                      <div class="method-title">Start in Trays, Transplant in Ground</div>
+                      <div class="method-description">
+                        Seeds are first sown in trays or seedbeds indoors or in a nursery, and once seedlings are strong enough, they are transplanted to the main field or garden.
+                      </div>
+                      <div class="method-example">
+                        Example: Tomatoes, peppers, cabbage.
+                      </div>
+                    </div>
+                    
+                    <div class="method-card">
+                      <div class="method-title">Transplant</div>
+                      <div class="method-description">
+                        Young plants grown elsewhere (nursery or greenhouse) are moved and planted in their final growing location. This helps ensure strong plants and better survival rates.
+                      </div>
+                      <div class="method-example">
+                        Example: Lettuce, broccoli, cauliflower.
+                      </div>
+                    </div>
+                    
+                    <div class="method-card">
+                      <div class="method-title">Container</div>
+                      <div class="method-description">
+                        Plants are grown entirely in pots or containers rather than in the ground. This is useful for small spaces, patios, or areas with poor soil.
+                      </div>
+                      <div class="method-example">
+                        Example: Herbs, small vegetables, strawberries.
+                      </div>
+                    </div>
+                    
+                    <div class="method-card">
+                      <div class="method-title">Grown in Trays</div>
+                      <div class="method-description">
+                        Seeds are sown in trays and grown until seedlings are ready. This is similar to starting in trays, but may stay in trays longer or be sold directly from trays.
+                      </div>
+                      <div class="method-example">
+                        Example: Microgreens, leafy seedlings, nursery crops.
+                      </div>
+                    </div>
+                    
+                    <div class="method-card">
+                      <div class="method-title">Root Stock</div>
+                      <div class="method-description">
+                        A healthy root system used as the base for grafting or propagation of other plants. Often used in fruit trees to improve disease resistance and growth.
+                      </div>
+                      <div class="method-example">
+                        Example: Apple trees, citrus trees.
+                      </div>
+                    </div>
+                    
+                    <div class="method-card">
+                      <div class="method-title">Bulbs</div>
+                      <div class="method-description">
+                        Plants are grown from underground storage organs like bulbs, corms, or tubers. These naturally contain nutrients to start growth.
+                      </div>
+                      <div class="method-example">
+                        Example: Onions, tulips, garlic, potatoes.
+                      </div>
+                    </div>
+                    
+                    <div class="method-card">
+                      <div class="method-title">Grafting</div>
+                      <div class="method-description">
+                        A method of joining two plant parts so that they grow as one. Typically used to combine a strong rootstock with a desired fruiting variety.
+                      </div>
+                      <div class="method-example">
+                        Example: Mango, apple, citrus trees.
+                      </div>
+                    </div>
+                    
+                    <div class="method-card">
+                      <div class="method-title">Layering</div>
+                      <div class="method-description">
+                        A branch or stem is bent to the ground and covered with soil to grow roots while still attached to the parent plant. Once rooted, it can be cut and planted independently.
+                      </div>
+                      <div class="method-example">
+                        Example: Strawberries, blackberries, some shrubs.
+                      </div>
+                    </div>
+                    
+                    <div class="method-card">
+                      <div class="method-title">Division</div>
+                      <div class="method-description">
+                        Clumping plants are divided into smaller sections, each with roots and shoots, and planted separately. This is a simple way to propagate perennials.
+                      </div>
+                      <div class="method-example">
+                        Example: Hostas, daylilies, ornamental grasses.
+                      </div>
+                    </div>
+                    
+                  </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="GerminationRate" data-key="GerminationRate">Germination Rate (%)
+                <span class="tooltip-icon" data-tooltip="The percentage of seeds expected to sprout under normal conditions.">?</span>
+              </label>
+              <input type="number" id="GerminationRate" required min="1">
+            </div>
+            <div class="form-row">
+              <label for="seedsPerHole" data-key="seedsPerHole">Seeds per hole</label>
+              <input type="number" id="seedsPerHole" required min="1">
+            </div>
+            <div class="form-row">
+              <label for="lightProfile" data-key="lightProfile">Outdoor Light Profile</label>
+              <select id="lightProfile" required>
+                <option value="">--- Select Variety ---</option>
+                <option value="fullSun">Full Sun</option>
+                <option value="fullToPart">Full to part Sun</option>
+                <option value="sunToPart">Sun to part shade</option>
+                <option value="partialSun">Partial Sun</option>
+                <option value="partialShade">Partial Shade</option>
+                <option value="fullShade">Full Shade</option>
+                <option value="dappled">Dappled Light</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="soilConditions" data-key="soilConditions">Soil Conditions</label>
+              <select id="soilConditions" name="soilConditions">
+                <option value="loamy">Loamy </option>
+                <option value="sandy">Sandy</option>
+                <option value="clay">Clay </option>
+                <option value="silt">Silty </option>
+                <option value="peaty">Peaty</option>
+                <option value="chalky">Chalky </option>
+              </select>              
+              <span class="info-icon" id="soilinfoBtn" style=" display: inline-block;
+                        background: #0c4f86;
+                        color: white;
+                        border-radius: 50%;
+                        width: 20px;
+                        height: 20px;
+                        text-align: center;
+                        line-height: 20px;
+                        cursor: pointer;
+                        margin-inline-start: 5px;">?</span>
+            </div>
+            <div id="soilInfoModal" class="modal2">
+              <div class="modal-content2">
+                <div class="modal-header">
+                  <h2>Soil Conditions Explained</h2>
+                  <span class="close">&times;</span>
+                </div>
+                <div id="modalBody">
+                  <div class="method-card">
+                    <div class="method-title">Loamy</div>
+                    <div class="method-description">Fertile, well-drained soil that retains moisture. Ideal for most crops and easy to work with.</div>
+                    <div class="method-example">Example: Tomatoes, peppers, cucumbers.</div>
+                  </div>
+                  <div class="method-card">
+                    <div class="method-title">Sandy</div>
+                    <div class="method-description">Drains quickly and warms fast, but low in nutrients. Requires frequent watering and fertilization.</div>
+                    <div class="method-example">Example: Carrots, radishes, onions.</div>
+                  </div>
+                  <div class="method-card">
+                    <div class="method-title">Clay</div>
+                    <div class="method-description">Heavy soil that retains water and nutrients well, but drains slowly and can compact easily.</div>
+                    <div class="method-example">Example: Broccoli, cabbage, tomatoes (with raised beds).</div>
+                  </div>
+                  <div class="method-card">
+                    <div class="method-title">Silty</div>
+                    <div class="method-description">Smooth, fertile soil that holds moisture well and is easy to till, but may compact if wet.</div>
+                    <div class="method-example">Example: Leafy greens, beans, corn.</div>
+                  </div>
+                  <div class="method-card">
+                    <div class="method-title">Peaty</div>
+                    <div class="method-description">Acidic soil high in organic matter and moisture. Good for certain vegetables but may need lime to reduce acidity.</div>
+                    <div class="method-example">Example: Strawberries, blueberries, lettuce.</div>
+                  </div>
+                  <div class="method-card">
+                    <div class="method-title">Chalky</div>
+                    <div class="method-description">Alkaline, stony soil that drains quickly and can be low in nutrients. May need fertilization or soil amendment.</div>
+                    <div class="method-example">Example: Cabbage, cauliflower, spinach.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="irrigation" data-key="irrigation">Irrigation Need:</label>
+              <select id="irrigation" required>
+                <option value="">---Select Need---</option>
+                <option value="Low">Low</option>
+                <option value="Moderate">Moderate</option>
+                <option value="High">High</option>
+              </select>
+            </div>
+        
+            <div class="form-row">
+              <label for="fertilizer" data-key="fertilizer">Fertilizer Plan (optional)</label>
+              <select id="fertilizer">
+                <option value="">---Select option---</option>
+                <option value="Organic">Organic</option>
+                <option value="Chemical">Chemical</option>
+                <option value="Mixed">Mixed</option>
+              </select>
+            </div>
+            <div class="button-group">
+            <button type="button" id="backToStep1">Back</button>
+            <button type="button" id="harvestDetails-btn">Next, Harvest Details</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div id="modalOverlay-step3" class="modal-overlay hidden">
+        <div class="modal-content">
+          <i class="fa-solid fa-xmark close-modal"></i>
+          <h2>Harvesting Details</h2>
+          <form id="cropFormStep3">
+            <div class="form-row">
+              <label for="flower">Days to Flower
+                <span class="tooltip-icon" data-tooltip="Number of days from planting until the plant starts flowering.">?</span>
+
+              </label>
+              <input type="number" id="flower" required min="1">
+            </div>
+            
+            <div class="form-row">
+              <label for="maturity">Days to Maturity
+                <span class="tooltip-icon" data-tooltip="Number of days from planting to first harvest.">?</span>
+              </label>
+              <input type="number" id="maturity" required min="1">
+            </div>
+            <div class="form-row">
+              <label for="harvestWindow">Harvest Window (days)</label>
+              <input type="number" id="harvestWindow" required min="1">
+            </div>
+            <div class="form-row">
+              <label for="lossRate">Loss Rate (%)
+                <span class="tooltip-icon" data-tooltip="Expected percentage of crop loss due to pests, diseases, or weather.">?</span>
+
+              </label>
+              <input type="number" id="lossRate" required>
+            </div>
+            <div class="form-row">
+              <label for="harvestUnit">Harvest Units</label>
+              <select id="harvestUnit" required>
+                <option value="">---Select Unit---</option>
+                <option value="bushel">Bales</option>
+                <option value="bushel">Bushel</option>
+                <option value="box">Box</option>
+                <option value="crate">Crate</option>
+                <option value="kilogram">Dozen</option>
+                <option value="kilogram">Grams (g)</option>
+                <option value="kilogram">Head</option>
+                <option value="kilogram">Kilogram (kg)</option>
+                <option value="kilogram">Liter (l)</option>
+                <option value="pound">Pound (lbs)</option>
+                <option value="ton">Ton</option>
+            </div>
+            <div class="form-row">
+              <label for="expYield">Expected Yield (per 30.48m)</label>
+              <input type="number" id="expYield" required min="1">
+            </div>
+            <div class="form-row">
+              <label for="hecYield">Expected Yield per Hectare</label>
+              <input type="number" id="hecYield" required min="1">
+            </div>
+            <div class="form-row">
+              <label for="estRev">Estimated Revenue (AED)</label>
+              <input type="number" id="estRev" required min="1">
+            </div>
+            <div class="form-row">
+              <label for="seedPerHole">Seeds per hole</label>
+              <input type="number" id="seedPerHole" required min="1">
+            </div>
+            <div class="button-group">
+              <button type="button" id="backToStep2">Back, Plant Details</button>
+              <button type="button" id="Submit-btn">Submit</button>
+            </div>
+          </form>
+      </div>
+      </div>
+  </div>
+
+  <div class="add-planting-content">
+    <div id="plantingModalOverlay-step1" class="modal-overlay hidden">
+      <div class="modal-content">
+        <i class="fa-solid fa-xmark close-modal"></i>
+        <h2>ADD PLANTING</h2>
+        <form id="plantingFormStep1">
+          <div class="form-row">
+            <label for="cropTypePlant">Crop Type:</label>
+            <select id="cropTypePlant" required >
+              <option value="">-- Choose Crop --</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="location" required>Planting Location:</label>
+            <select id="location">
+              <option value="">-- Choose Location --</option>
+            </select>
+          </div>
+          <div class="form-row" id="structureRow" style="display: none;">
+            <label for="structure">Structure:</label>
+            <select id="structure">
+              <option value="">-- Choose Structure --</option>
+            </select>
+          </div>
+          <button type="button" id="nextToStep2-plant">Next, Planting Details</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="plantingModalOverlay-step2" class="modal-overlay hidden">
+      <div class="modal-content">
+        <i class="fa-solid fa-xmark close-modal"></i>
+        <h2>PLANTING DETAILS</h2>
+        <form id="plantingFormStep2">
+            <div class="form-row">
+              <label for="numOfPlanting">Number of Plantings</label>
+              <input type="number" id="numOfPlanting" placeholder="e.g., 2 per season" />
+            </div>
+            <h2>First Planting Details</h2>
+            <div class="form-row">
+              <label for="emergeDays">Days to Emerge</label>
+              <input type="number" id="emergeDays" placeholder="e.g., 8 days" />
+            </div>
+            <div class="form-row">
+              <label for="spacing">Plant Spacing (cm)</label>
+              <input type="number" id="spacing" placeholder="e.g., 76.2" />
+            </div>
+            <div class="form-row">
+              <label for="rowSpacing">Row Spacing (cm)</label>
+              <input type="number" id="rowSpacing" placeholder="e.g., 76.2" />
+            </div>
+            <div class="form-row">
+              <label for="depth">Planting Depth (cm)</label>
+              <input type="number" id="depth" placeholder="e.g., 0.635" />
+            </div>
+            <div class="form-row">
+              <label for="height">Average Height (cm)</label>
+              <input type="number" id="height" placeholder="e.g., 106.68" />
+            </div>
+            <div class="form-row">
+              <label for="startMethod">Start Method</label>
+              <select id="startMethod">
+                <option value="">-- Select Method --</option>
+                <option>Start in Trays</option>
+                <option>Transplant in Ground</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="germination">Estimated Germination Rate (%)</label>
+              <input type="number" id="germination" placeholder="e.g., 100%" />
+            </div>
+            <div class="form-row">
+              <label for="light">Light Profile</label>
+              <select id="light">
+                <option>Full Sun</option>
+                <option>Partial Shade</option>
+                <option>Shade</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="soil">Soil Conditions</label>
+              <input type="text" id="soil" placeholder="e.g., Loamy, Well-drained" />
+            </div>
+            <h2>Harvest Plan</h2>
+            <div class="form-row">
+              <label for="firstHarvestDate">Planned First Harvest</label>
+              <input type="date" id="firstHarvestDate" />
+            </div>
+            <h2>Seed Details</h2>
+            <div class="form-row">
+              <label for="seedCompany">Seed Company</label>
+              <input type="text" id="seedCompany" />
+            </div>
+            <div class="form-row">
+              <label for="seedType">Seed Type</label>
+              <select id="seedTypeOptions">
+                <option value="">-- Seed Type --</option>
+                <option value="Conventional">Conventional</option>
+                <option value="GMO">GMO</option>    
+                <option value="Heirloom">Heirloom</option>
+                <option value="Hybrid">Hybrid</option>
+                <option value="Organic">Organic</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="lotNum">Lot Number</label>
+              <input type="number" id="lotNum" placeholder="e.g., 1" />
+            </div>
+            <div class="form-row">
+              <label for="seedsPerHole">Seeds per Hole/Cell</label>
+              <input type="number" id="seedsPerHole" placeholder="e.g., 1" />
+            </div>
+            <div class="button-group">
+              <button type="button" id="plantBack2Croph">Back</button>
+              <button type="button" id="plantFinish">Finish</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="slider-container" id="cropSlider"> </div>      
+  <main class="table" id="customers_table"> 
+  <table>
+    <thead>
+      <tr>
+        <th id="farm-header-column" data-key="farm-header-column">Crop Type</th>
+        <th id="plantdate-header-column" data-key="plantdate-header-column">Location</th>
+        <th id="harvestdate-header-column" data-key="harvestdate-header-column">Key Dates</th>
+      </tr>
+    </thead>
+    <tbody id="crops-tbody">
+    </tbody>
+  </table>
+  </main>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/translation.js"></script>
+<script src="js/importHeaderBar.js"></script>
+<script src="js/farmerDashboard.js"></script>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<script src="https://cdn.osmbuildings.org/classic/0.2.2b/OSMBuildings-Leaflet.js"></script>
+
+</body>
+  <script type="module">
+  document.addEventListener("DOMContentLoaded", async function(){
+
+    const plantFinish = document.getElementById('plantFinish');
+    const plantBack2Croph = document.getElementById('plantBack2Croph');
+    plantFinish.addEventListener("click", () => {
+        plantingModalOverlayStep2.classList.add('hidden');
+    })
+    plantBack2Croph.addEventListener("click", () => {
+        // plantingModalOverlayStep1.classList.add('hidden');
+        // plantingModalOverlayStep1.classList.add('block');
+        showStep('plantingModalOverlay-step2', 'plantingModalOverlay-step1');   
+
+    })
+    let  userId;
+    const { data: { user }, error: authError } = await supa.auth.getUser();
+    userId = user.id;
+      // farmer created crops
+      const cropSelect = document.getElementById("cropTypePlant");
+      const { data: cropsData, error: cropsDataError } = await supa
+        .from("cropTypes")
+        .select("cropType, cropSubtype")
+        .eq("farmer_id", userId);
+      if (cropsDataError) return console.error(cropsDataError);
+      cropSelect.innerHTML = `<option value="">-- Choose Crop --</option>`;
+      const uniqueCrops = [...new Set(cropsData.map(c => c.cropType))];
+      uniqueCrops.forEach(crop => {
+        const opt = document.createElement("option");
+        opt.value = crop;
+        opt.textContent = crop;
+        cropSelect.appendChild(opt);
+      });
+
+      const locationSelect = document.getElementById("location");
+      const structureRow = document.getElementById("structureRow");
+      const structureSelect = document.getElementById("structure");
+
+       const farmDropdown = document.createElement("select");
+       farmDropdown.innerHTML = `<option value="">Select Farm</option>`;
+
+      const { data: farms, error: farmError } = await supa
+        .from("Farms")
+        .select("*")
+        .eq("User_id", userId);
+      
+        locationSelect.innerHTML = `<option value="">-- Choose Location --</option>`;
+        farms.forEach(farm => {
+          const opt = document.createElement("option");
+          opt.value = farm.farm_id;
+          opt.textContent = farm.Farm_name;
+          locationSelect.appendChild(opt);
+        });
+        structureRow.style.display = "none";
+        locationSelect.addEventListener("change", async (e) => {
+    const farmId = e.target.value;
+
+    // Reset structure dropdown
+    structureSelect.innerHTML = `<option value="">-- Choose Structure --</option>`;
+    structureRow.style.display = "none";
+
+    if (!farmId) return;
+
+    // Fetch structures for selected farm
+    const { data: structures, error: structError } = await supa
+      .from("FarmStructures")
+      .select("structure_id, structure_name")
+      .eq("farm_id", farmId);
+    if (structError) return console.error(structError);
+
+    // If structures exist, show dropdown and populate
+    if (structures && structures.length > 0) {
+      structures.forEach(s => {
+        const opt = document.createElement("option");
+        opt.value = s.structure_id;
+        opt.textContent = s.structure_name;
+        structureSelect.appendChild(opt);
+      });
+      structureRow.style.display = "block";
+    }
+  
+
+  });
+
+
+
+    const soilInfoModal = document.getElementById("soilInfoModal");
+    const soilinfoBtn = document.getElementById("soilinfoBtn");
+    soilinfoBtn.onclick = () => {
+      document.body.classList.add('modal-open');
+      soilInfoModal.style.display = "block";
+    };
+    const modal = document.getElementById("infoModal");
+    const infoBtn = document.getElementById("infoBtn");
+    const closeModal = document.querySelectorAll(".close");
+    // Open modal with blur effect
+    infoBtn.onclick = () => {
+      document.body.classList.add('modal-open');
+      modal.style.display = "block";
+    };
+
+// Close modal and remove blur
+closeModal.forEach(btn => {
+  btn.onclick = () => {
+      modal.style.display = "none";
+      soilInfoModal.style.display = "none";
+      document.body.classList.remove('modal-open');
+  };
+});
+// Close modal if clicked outside content
+window.onclick = (event) => {
+  if (event.target == modal) {
+    modal.style.display = "none";
+    document.body.classList.remove('modal-open');
+  }
+};
+    // document.addEventListener("DOMContentLoaded", viewCrops);   
+    // async function viewCrops(){
+      const {data: crops, error: cropsError} = await supa
+      .from("cropTypes")
+      .select(`
+           farmer_id,
+            cropType,
+            cropSubtype
+          `);
+
+      console.log(crops);
+      const sliderContainer = document.getElementById("cropSlider");
+      sliderContainer.innerHTML = "";
+      crops.forEach((crop, index) => {
+        const card = document.createElement("div");
+        card.classList.add("slider-card");
+        if (index === 0) card.classList.add("active"); // first card active
+        card.dataset.crop = crop.cropType;
+        const h3 = document.createElement("h3");
+        h3.textContent = crop.cropType;
+        card.appendChild(h3);
+
+        sliderContainer.appendChild(card);
+    });
+
+      const tbody = document.getElementById("crops-tbody");
+      tbody.innerHTML = "";
+      if (!crops.length) {
+          const tr = document.createElement('tr');
+          // tr.classList.add("crop"); 
+          tr.innerHTML = `<td colspan="7" style="text-align:center; opacity:.7;">No crops yet</td>`;
+          tbody.appendChild(tr);
+          return;
+        }
+      crops.forEach(crop => {
+        const tr = document.createElement('tr');
+        const cropType= crop.cropType;
+        const cropSubtype= crop.cropSubtype;
+        // const farm = crop.farm.Farm_name;
+        // const struct = crop.structure.structure_name;
+
+        tr.innerHTML = `
+          <td>${'t'}</td>
+            <td>${cropType} ${(cropSubtype)}</td>
+            <td>${cropType}</td>
+          `;
+          tbody.appendChild(tr);
+      });
+    // };
+    function renderCropRows(cropName) {
+      const tableBody = document.getElementById('crop-table-body');
+      tableBody.innerHTML = crops[cropName]
+        .map(entry => `
+          <tr>
+            <td>${entry.farm}</td>
+            <td>${entry.plant}</td>
+            <td>${entry.harvest}</td>
+            <td><div class="progress-bar" style="--progress: ${entry.progress}">${entry.progress}</div></td>
+            <td><span class="status ${entry.statusClass}">${entry.health}</span></td>
+          </tr>
+        `)
+        .join('');
+    }
+
+
+    // Initial render for default crop (Tomatoes)
+    // renderCropRows('Tomatoes');
+    const submitNewCrop = document.getElementById('Submit-btn');
+    submitNewCrop.addEventListener( "click", async () => {
+      const cropType = document.getElementById("cropType").value;
+      const cropSubType = document.getElementById("cropSubType").value;
+      const emergeDaysValue = document.getElementById("emergeDays").value;
+      const plantSpacingValue = document.getElementById("plantSpacing").value;
+      const rowSpacingValue = document.getElementById("rowSpacing").value;
+      const plantingDepthValue = document.getElementById("plantingDepth").value;
+      const avgHeightValue = document.getElementById("avgHeight").value;
+      const startMethodValue = document.getElementById("startMethod").value;
+      const germinationRateValue = document.getElementById("GerminationRate").value;
+      const seedsPerHoleValue = document.getElementById("seedsPerHole").value;
+      const lightProfileValue = document.getElementById("lightProfile").value;
+      const soilConditionsValue = document.getElementById("soilConditions").value;
+      const irrigationValue = document.getElementById("irrigation").value;
+      const fertilizerValue = document.getElementById("fertilizer").value;
+
+      const flowerValue = document.getElementById("flower").value;
+      const maturityValue = document.getElementById("maturity").value;
+      const harvestWindowValue = document.getElementById("harvestWindow").value;
+      const lossRateValue = document.getElementById("lossRate").value;
+      const harvestUnitValue = document.getElementById("harvestUnit").value;
+      const expYieldValue = document.getElementById("expYield").value;
+      const hecYieldValue = document.getElementById("hecYield").value;
+      const seedPerHoleValue = document.getElementById("seedPerHole").value;
+      const estRevValue = document.getElementById("estRev").value;
+      const { data: cropData, error: cropError} = await supa
+        .from("cropTypes")
+        .insert([
+          {   cropType: cropType,
+              cropSubtype: cropSubType,
+              plantingAttributes: {
+                emergeDays: emergeDaysValue,
+                plantSpacing: plantSpacingValue,
+                rowSpacing: rowSpacingValue,
+                plantingDepth: plantingDepthValue,
+                avgHeight: avgHeightValue,
+                startMethod: startMethodValue,
+                GerminationRate: germinationRateValue,
+                seedsPerHole: seedsPerHoleValue,
+                light: lightProfileValue,
+                soilCondition: soilConditionsValue,
+                irrigation: irrigationValue,
+                fertilizerPlan: fertilizerValue
+            },
+            harvestingAttributes: {
+                flower: flowerValue,
+                maturity: maturityValue,
+                harvestWindow: harvestWindowValue,
+                lossRate: lossRateValue,
+                harvestUnit: harvestUnitValue,
+                expYield: expYieldValue,
+                hecYield: hecYieldValue,
+                seedsPerHole: seedPerHoleValue,
+                estRev: estRevValue
+            }
+          }
+        ]);
+        // if (!cropError){ viewCrops(); }
+        modalOverlayStep3.classList.add('hidden');
+      });
+    // Slider logic
+    const sliderCards = document.querySelectorAll('.slider-card');
+    sliderCards.forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelector('.slider-card.active')?.classList.remove('active');
+        card.classList.add('active');
+        const cropName = card.dataset.crop;
+        renderCropRows(cropName);
+      });
+    });
+
+    const addCropBtn = document.getElementById('crop-btn');
+    addCropBtn.addEventListener('click', () => {
+      modalOverlayStep1.classList.remove('hidden');
+    });
+    
+    const addPlantingBtn = document.getElementById('add-plnt-btn');
+    addPlantingBtn.addEventListener('click', () => {
+      plantingModalOverlayStep1.classList.remove('hidden');
+    } );
+
+    const nextToStep2Plant = document.getElementById('nextToStep2-plant');
+    nextToStep2Plant.addEventListener('click', () => {
+      showStep('plantingModalOverlay-step1', 'plantingModalOverlay-step2');   
+     });
+    async function autoFillFields(cropType, cropSubType){
+      console.log(cropType);
+
+try{
+      const response = await fetch("http://localhost:3000/api/crop", {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ cropType, cropSubType
+          }),
+        });
+        const modelData = await response.json();
+        console.log("model data: ", modelData);
+        document.getElementById("emergeDays").value = modelData.emergeDay;
+        document.getElementById("plantSpacing").value = modelData.plantSpacing;
+        document.getElementById("rowSpacing").value = modelData.rowSpacing;
+        document.getElementById("plantingDepth").value = modelData.plantingDepth;
+        document.getElementById("avgHeight").value = modelData.avgHeight;
+        // document.getElementById("startMethod").value = modelData.startMethod;
+        document.getElementById("GerminationRate").value = modelData.GerminationRate;
+        document.getElementById("seedsPerHole").value = modelData.seedsPerHole;
+        document.getElementById("soilConditions").value = modelData.soilConditions;
+        document.getElementById("flower").value = modelData.dayToflower;
+        document.getElementById("fertilizer").value = modelData.fertilizer;
+        document.getElementById("irrigation").value = modelData.irrigationNeed;
+        document.getElementById("maturity").value = modelData.dayTomaturity;
+        document.getElementById("harvestWindow").value = modelData.harvestWindow;
+        document.getElementById("lossRate").value = modelData.lossRate;
+        document.getElementById("harvestUnit").value = modelData.harvestUnit;
+        document.getElementById("expYield").value = modelData.expYieldHec;
+        document.getElementById("estRev").value = modelData.estRev;
+        document.getElementById("lightProfile").value = modelData.lightProfile;
+        const select = document.getElementById("startMethod");
+        const modelStartValue = modelData.startMethod.toLowerCase();
+
+        //  if the predicted value exists in the options
+        let found = false;
+        for (const option of select.options) {
+          if (option.value === modelStartValue || option.text === modelStartValue) {
+            option.selected = true;
+            found = true;
+            break;
+          }
+        }
+
+        if (!found) {
+          console.warn("Predicted start method not found in select:", modelData.startMethod);
+          // Optionally: add it as a new option
+          const newOption = document.createElement("option");
+          newOption.value = modelData.startMethod;
+          newOption.text = modelData.startMethod;
+          newOption.selected = true;
+          select.appendChild(newOption);
+        }  
+      } catch (error){
+          console.log("model data error: ", error);
+        }
+     };
+    // step buttons
+    const nextToStep2Btn = document.getElementById('nextToStep2');
+    const backToStep1Btn = document.getElementById('backToStep1');
+    const nextToStep3Btn = document.getElementById('harvestDetails-btn');
+    const backToStep2Btn = document.getElementById('backToStep2');
+    const nextToStep4Btn = document.getElementById('fieldSelection-btn');
+    const backToStep3Btn = document.getElementById('backToStep3');
+    
+    const closeBtns = document.querySelectorAll('.close-modal');
+
+    // modal containers
+    const modalOverlayStep1 = document.getElementById('modalOverlay-step1');
+    const modalOverlayStep2 = document.getElementById('modalOverlay-step2');
+    const modalOverlayStep3 = document.getElementById('modalOverlay-step3');
+    
+    const plantingModalOverlayStep1 = document.getElementById('plantingModalOverlay-step1');
+    const plantingModalOverlayStep2 = document.getElementById('plantingModalOverlay-step2');
+    
+    // inputs
+    const cropTypeInput = document.getElementById('cropType');
+    const cropSuggestions = document.getElementById('cropSuggestions');
+    // to change later, to fetch from the database  || cropTypeInput 
+    const cropSug = ["Tomato", "Potato", "Cucumber", "Lettuce", "Carrot"];
+    const cropSubTypeInput = document.getElementById('cropSubType');
+    const cropIDDisplay = document.getElementById('cropIDDisplay');
+
+    const formStep1 = document.getElementById('cropFormStep1');
+    const formStep2 = document.getElementById('cropFormStep2');
+    const formStep3 = document.getElementById('cropFormStep3');
+    const formStep4 = document.getElementById('cropFormStep4');
+
+    // When the user types in the input
+    // cropTypeInput.addEventListener('input', function() {
+    //   const value = cropTypeInput.value.toLowerCase();
+    //   // Filter crops that include the typed value
+    //   const matches = cropSug.filter(crop => crop.toLowerCase().includes(value));
+      
+    //   // Clear previous suggestions
+    //   cropSuggestions.innerHTML = '';
+      
+    //   // Show suggestions if there are matches and input is not empty
+    //   if (value && matches.length > 0) {
+    //     matches.forEach(crop => {
+    //       const li = document.createElement('li');
+    //       li.textContent = crop;
+    //       li.onclick = function() {
+    //         cropTypeInput.value = crop; // Fill input with selected crop
+    //         cropSuggestions.innerHTML = ''; // Hide suggestions
+    //       };
+    //       cropSuggestions.appendChild(li);
+    //     });
+    //   } else if (value) {
+    //   // Optionally, show "Add new crop" if no matches
+    //   const li = document.createElement('li');
+    //   li.textContent = `Add new crop: "${cropTypeInput.value}"`;
+    //   li.style.fontStyle = 'italic';
+    //   li.onclick = function() {
+    //     cropTypeInput.value = cropTypeInput.value; // Keep what user typed
+    //     cropSuggestions.innerHTML = '';
+    //   };
+    //   cropSuggestions.appendChild(li);
+    // }
+    // });
+
+    // Hide suggestions when clicking outside
+    // document.addEventListener('click', function(e) {
+    //   if (!cropInput.contains(e.target) && !cropSuggestions.contains(e.target)) {
+    //     cropSuggestions.innerHTML = '';
+    //   }
+    // });
+
+    // func to show/hide steps
+    function showStep(hideThisID, showThisID) {
+      document.getElementById(hideThisID).classList.add('hidden');
+      document.getElementById(showThisID).classList.remove('hidden');
+  } 
+
+  // generating the crop ID
+  function getCodeFromName(name, length = 3) {
+    return name.toUpperCase().replace(/\s+/g, '').slice(0, length);
+  }
+
+  function generateCropID(typeName, subTypeName) {
+    const typeCode = getCodeFromName(typeName, 3);     //  "Tomatoes" → "TOM"
+    const subCode = getCodeFromName(subTypeName, 4);    // "Cherry" → "CHRY"
+    const year = new Date().getFullYear();              // 2025
+    const rand = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+
+    return `${typeCode}-${subCode}-${year}-${rand}`;
+  }
+
+  closeBtns.forEach(closeBtn => {
+    closeBtn.addEventListener('click', () =>{
+      // Hide all modal overlays
+      modalOverlayStep1.classList.add('hidden');
+      modalOverlayStep2.classList.add('hidden');
+      modalOverlayStep3.classList.add('hidden');
+      plantingModalOverlayStep1.classList.add('hidden');
+      plantingModalOverlayStep2.classList.add('hidden');
+    });
+  });
+  
+  nextToStep2Btn.addEventListener('click', () => {
+   
+    const cropType = cropTypeInput.value;
+    const cropSubType = cropSubTypeInput.value;
+   
+    const subtypeText = cropSubType ? cropSubType : "general";
+      autoFillFields(cropType, subtypeText);
+    if (!cropType ) {
+        alert('Please select crop type.');
+        return;
+      }
+
+    // const cropID = generateCropID(cropType, cropSubType);
+    // document.getElementById('cropIDDisplay').textContent = cropID;
+    
+    showStep('modalOverlay-step1', 'modalOverlay-step2');
+});
+
+  backToStep1Btn.addEventListener('click', () => {
+    showStep('modalOverlay-step2', 'modalOverlay-step1');
+  });
+
+  nextToStep3Btn.addEventListener('click', () => {
+    showStep('modalOverlay-step2', 'modalOverlay-step3');
+  });
+  
+  backToStep2Btn.addEventListener('click', () => {
+    showStep('modalOverlay-step3', 'modalOverlay-step2');
+  });
+    });
+</script>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Farm</title>
+  <!-- <link href="css/Leaflet.Weather.css" rel="stylesheet"  />
+  <script src="js/Leaflet.Weather.js"></script> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="  crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.geometryutil/0.9.3/leaflet.geometryutil.min.js"></script>
+  <script src="https://cdn.osmbuildings.org/classic/0.2.2b/OSMBuildings-Leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+  <link rel="stylesheet" href="leaflet-measure\leaflet-measure\leaflet-measure.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+  <script src="leaflet-measure\leaflet-measure\src\leaflet-measure.js"></script>
+
+  <!-- to locate the location -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@v0.84.2/dist/L.Control.Locate.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@v0.84.2/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+
+  <link rel="stylesheet" href="css/markYourMap.css" />
+  <link rel="stylesheet" href="css/addFarm.css" />
+
+  <link rel="stylesheet" href="css/farmerDashboard.css" />
+
+</head>
+<body>
+  <div class="page-wrapper">
+    <div class="sidebar-container"></div>
+    <div class="main-content">
+        <div class="header">
+          <div class="search-box">
+            <i class="fa fa-search"></i>
+            <input type="text" placeholder="Search crops, plants, farm" />
+          </div>
+          <div class="lang-toggle" id="lang-toggle">
+            <span class="lang active" id="en">EN</span>
+            <span class="lang" id="ar">ع</span>
+          </div>
+          <i class="help-btn fa-solid fa-circle-info" id="help"></i>
+          <i class="fa-solid fa-moon" style="margin-left: 26px; font-size: 20px;   transition: all 0.5s;" id="icon"></i>
+          <i class="fa-solid fa-bell" id="alert"></i>
+        </div>
+    <div class="body-container" style="margin-inline-start: 20px;">
+      <h2 >Add Farm</h2>
+      <!-- <div class="page-wrapper">  </div> -->
+      <div id="map"></div>
+    </div>
+  </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+    <script src="js/addFarm.js"></script>
+    <script src="js/markYourMap.js"></script>
+    <script src="js/importHeaderBar.js"></script>
+    <!-- <script src="js/farmerDashboard.js"></script> -->
+
+    <!-- <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="https://cdn.osmbuildings.org/classic/0.2.2b/OSMBuildings-Leaflet.js"></script> -->
+    <!-- <script src="js/markYourMap.js"></script> -->
+</body>
+
+</html>

@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crop Overview</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/invite.css" />
+  <link rel="stylesheet" href="css/farmerDashboard.css" />
+
+</head>
+<body>
+    <div class="sidebar-container""></div>
+    <div class="header" >
+      <div class="search-box">
+        <i class="fa fa-search"></i>
+        <input type="text" placeholder="Search crops, plants, farm" />
+      </div>
+      <div class="lang-toggle" id="lang-toggle">
+        <span class="lang active" id="en">EN</span>
+        <span class="lang" id="ar">ع</span>
+      </div>
+      <i class="help-btn fa-solid fa-circle-info" id="help"></i>
+      <i class="fa-solid fa-moon" style="margin-left: 26px; font-size: 20px;   transition: all 0.5s;" id="icon"></i>
+      <i class="fa-solid fa-bell" id="alert"></i>
+      <i class="fa-solid fa-gear" id="settings" style="margin-inline-start: 90px;"></i>
+
+    </div>
+
+    <!-- <div class="page-wrapper"></div> -->
+     <div class="page-container"  style="padding-top: 80px;" >
+      <div class="title" >
+        <h1 >Invite New Technician</h1>
+        <p class="subtitle">Grant access, assign roles, and define farm responsibilities.</p>
+        <button class="preview-generated-codes" onclick="openCodeTableModal()">View generated codes</button>
+     
+        <div id="codeTableModal" class="modal-overlay">
+        <div class="modal-content wide">
+          <h2>🔐 All Access Codes</h2>
+      
+          <div class="table-wrapper">
+            <table class="code-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Role</th>
+                  <th>Permission</th>
+                  <th>Farms and Structures</th>
+                  <th>Expiry</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="invites-tbody">
+                <!-- <tr>
+                  <td>Ali Mansoor</td>
+                  <td>Technician</td>
+                  <td>View, Manage Tasks</td>
+                  <td>GH A, GH B</td>
+                  <td>2025-12-31</td>
+                  <td>ABCD-1234</td>
+                  <td>
+                    <button>Edit</button>
+                    <button>Revoke</button>
+                    <button>Regenerate</button>
+                  </td>
+                </tr> -->
+              </tbody>
+            </table>
+          </div>
+      
+          <button onclick=closeCodeTableModal() class="close-btn">Close</button>
+        </div>
+      </div>
+</div>
+<form id="inviteForm">
+  <div class="form-container">
+    <div class="section">
+      <div class="step-item">
+        <h2>Technicians Details</h2>
+        <div class="line"></div>
+        <div class="step">1</div>
+      </div>
+      <!-- <label for="techName">FULL NAME</label> -->
+      <input type="text" id="techName" placeholder="Full name" required>
+      <input type="email" id="techEmail" placeholder="john@example.com">
+      <input type="tel" id="techPhone" placeholder="+971 50 123 4567" required>
+    </div>
+    <div class="section">
+      <div class="step-item">
+        <h2>Access Control</h2>
+          <div class="line"></div>
+          <div class="step">2</div>
+      </div>
+      <!-- <div class="access-code-section"> -->
+        <!-- <button class="generate-btn" onclick="generateCode()">Generate Code</button> -->
+        <!-- <div class="access-code-box" id="accessCode">XXXX-XXXX</div> -->
+      <!-- </div> -->
+
+      <div style="display: flex;">
+        <label for="expiry"  style="width: 150px;">Access Expiry</label>
+        <input type="date" id="expiry" style="width: 27%;" required>
+      
+        <label for="role" style=" margin-inline-end: 10px;" >Role</label>
+        <select id="role" style=" width: 40%;" required>
+          <option value="" >Select a Role</option>
+          <option value="Technician">Technician</option>
+          <option value="Supervisor">Supervisor</option>
+          <option value="Analyst">Analyst</option>
+          <option value="Analyst">Viewer</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="step-item" >
+        <h2>Permission</h2>
+        <div class="line"></div>
+        <div class="step">3</div>
+
+      </div>
+      <div class="permissions" >
+        <label><input type="radio" name="permission" value="viewFarm" required> View Farm Data</label>
+        <label><input type="radio" name="permission" value="manageTasks"> Manage Tasks</label>
+        <label><input type="radio" name="permission" value="viewReports"> View Reports</label>
+        <label><input type="radio" name="permission" value="addObservations"> Add Observations</label>
+      </div>
+      
+    </div>
+
+    <div class="section">
+      <div class="step-item">
+        <h2>Select Farms & Structures</h2>
+        <div class="line"></div>
+        <div class="step">4</div>
+
+      </div>
+      <div id="farmStructureContainer"> </div>
+    </div>
+    <button id="addFarmBtn" style="width: 100%; padding: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 12px;
+    background: #ededed; border:none;">Add Another Farm</button>
+    <button class="invite-btn" id="invite-btn" >Send Invite</button>
+  </div>
+</form>
+     </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/farmerDashboard.js"></script>
+<script src="js/importHeaderBar.js"></script>
+  <script src="js/translation.js"></script>
+<script type="module">
+
+  const form = document.getElementById('inviteForm');
+  const inviteBtn = document.querySelector('.invite-btn');
+  const inviteBtnDis = document.getElementById('invite-btn');
+
+  form.addEventListener("input", () => {
+    // checking if all required fields are filled
+    const allFilled = [...form.querySelectorAll("[required]")].every((field) => {
+     if (field.type === "radio") {
+    // for radio groups:
+    return form.querySelectorAll(`input[name="${field.name}"]:checked`).length > 0;
+  } else {
+    return field.value.trim() !== "";
+  }
+});
+  });
+
+  // view generated codes: 
+  async function fetchInvitations(){
+    const   { data , error} = await supa
+     .from('invitations')
+     .select(`
+      invitation_id,
+      invitee_name,
+      invitee_email,
+      invitee_phoneNum,
+      user_role,
+      permissions,
+      expiry_date,
+      status,
+      technician_assignments:technician_assignments(
+        farmID,
+        struct_id,
+        farm:Farms(farm_id, Farm_name),
+        structure:FarmStructures(structure_id, structure_name)
+      )
+    `)
+    .eq('inviter_id', userId)
+    .order('expiry_date', { ascending: true });
+
+    if (error) throw error;
+    renderInvitations(data);
+    // console.log(data);
+    return data || [];
+  }
+
+function renderInvitations(rows) {
+  const tbody = document.getElementById('invites-tbody');
+  tbody.innerHTML = "";
+
+  if (!rows.length) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td colspan="7" style="text-align:center; opacity:.7;">No invitations yet</td>`;
+    tbody.appendChild(tr);
+    return;
+  }
+
+  for (const row of rows) {
+    const tr = document.createElement('tr');
+
+    const name = row.invitee_name ?? "—";
+    const role = row.user_role ?? "—";
+    const perms = row.permissions;
+    const farms = formatFarms(row.technician_assignments);
+    const expiry = formatDate(row.expiry_date);
+    const status = row.status ?? "—";
+
+    tr.innerHTML = `
+      <td>${name}</td>
+      <td>${role}</td>
+      <td>${perms}</td>
+      <td>${farms}</td>
+      <td>${expiry}</td>
+      <td>${status}</td>
+     
+    `;
+     // <td class="actions">
+      //   <button class="edit-btn" data-id="${row.invitation_id}">Edit</button>
+      //   <button class="revoke-btn" data-id="${row.invitation_id}">Revoke</button>
+      // </td>
+    tbody.appendChild(tr);
+  }
+  wireRowActions();
+}
+
+function formatPermissions(perms) {
+  if (!perms) return "-";
+  return Array.isArray(perms) ? perms.join(", ") : String(perms);
+}
+
+function formatFarms(assignments) {
+  if (!assignments?.length) return "-";
+  return assignments.map(a => {
+    const farmName = a?.farm?.Farm_name ?? a?.farm?.farm_name ?? "Unknown Farm";
+    const structName = a?.structure?.structure_name ?? "Unknown Structure";
+    return `- ${farmName}, ${structName}`;
+  }).join("<br>");
+}
+
+function formatDate(d) {
+  if (!d) return "-";
+  const date = new Date(d);
+  return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit' });
+}
+
+async function handleRevoke(invitation_id) {
+  const { error } = await supa
+    .from('invitations')
+    .update({ status: 'revoked' })
+    .eq('invitation_id', invitation_id);
+  if (error) return console.error("Revoke failed:", error);
+  // await loadInvites();
+}
+ 
+function wireRowActions() {
+  document.querySelectorAll('.revoke-btn').forEach(btn => {
+    btn.addEventListener('click', () => handleRevoke(btn.dataset.id));
+  });
+  document.querySelectorAll('.edit-btn').forEach(btn => {
+    btn.addEventListener('click', () => openEditDialog(btn.dataset.id));
+  });
+}
+
+const today = new Date()
+const year = today.getFullYear();
+const month = String(today.getMonth()+1).padStart(2, '0');
+const day= String(today.getDate()).padStart(2, '0');
+const localToday = `${year}-${month}-${day}`;
+
+document.getElementById("expiry").setAttribute("min", localToday);
+
+let  userId;
+async function addFarmSelector(){
+  const container = document.getElementById("farmStructureContainer");
+  const wrapper = document.createElement("div");
+  wrapper.classList.add("selectors");
+  wrapper.style.marginBottom = "1px";
+
+  const farmDropdown = document.createElement("select");
+  farmDropdown.innerHTML = `<option value="">Select Farm</option>`;
+
+  const { data: { user }, error: authError } = await supa.auth.getUser();
+  userId = user.id;
+  const { data: farms} = await supa
+    .from("Farms")
+    .select(`*`)
+    .eq("User_id", userId);
+    // console.log(userId);
+    farms.forEach(farm => {
+      const opt = document.createElement("option");
+      opt.value = farm.farm_id;
+      opt.textContent = farm.Farm_name;
+      farmDropdown.appendChild(opt);
+    });
+
+    const structureDropdown = document.createElement("select");
+    structureDropdown.innerHTML = `<option value="">Select Structure</option>`;
+    structureDropdown.disabled = true;
+    farmDropdown.addEventListener("change", async (e) => {
+    const farmId = e.target.value;
+    structureDropdown.innerHTML = `<option value="">Select Structure</option>`;
+    structureDropdown.disabled = true;
+
+    if (!farmId) return;
+    const { data: structures } = await supa
+      .from("FarmStructures")
+      .select("structure_id, structure_name")
+      .eq("farm_id", farmId);
+
+    structures.forEach(s => {
+      const opt = document.createElement("option");
+      opt.value = s.structure_id;
+      opt.textContent = s.structure_name;
+      structureDropdown.appendChild(opt);
+    });
+
+    structureDropdown.disabled = false;
+  });
+
+  // append dropdowns to wrapper
+  wrapper.appendChild(farmDropdown);
+  wrapper.appendChild(structureDropdown);
+
+  container.appendChild(wrapper);
+}
+document.getElementById("addFarmBtn").addEventListener("click", addFarmSelector);
+// document.addEventListener("DOMContentLoaded", addFarmSelector);
+
+const roleSelectOp = document.getElementById('role');
+let selectedRole = '';
+roleSelectOp.addEventListener("change", function(){
+  selectedRole = roleSelectOp.value;
+  // console.log(selectedRole);
+
+});
+let expiryDateLabel = document.getElementById("expiry");
+let expDateValue;
+expiryDateLabel.addEventListener("change", function(){
+   let date = new Date(expiryDateLabel.value);
+    expDateValue = date.toISOString();
+  // console.log(expDateValue);
+});
+
+const farmDropdowns = document.querySelectorAll(".farmdropdown");
+farmDropdowns.forEach(farmSelect => {
+  const farmId = farmSelect.value; // selected farm ID
+  console.log("Selected farm ID:", farmId);
+});
+// access code
+function generateCode(length = 6) {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let code = "";
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * chars.length);
+    code += chars[randomIndex];
+  }
+  return code;
+}
+
+inviteBtn.addEventListener("click", async () => {
+  const phoneNum = document.getElementById('techPhone').value;
+  const email = document.getElementById('techEmail').value || null ;
+  const selectedPermission = document.querySelector('input[name="permission"]:checked')?.value || null;
+  const username = document.getElementById('techName').value;
+
+//       const res = await fetch("/functions/v1/createInvitation", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ userId: supa.auth.user().id, phoneNum, email, role, selectedPermission, username, expDateValue })
+//       });
+
+//       const data = await res.json();
+//       if (data.error) {
+//         alert("Error: " + data.error);
+//       } else {
+//         alert("Access code sent successfully!");
+//       }
+//     });
+
+  const codeExpiry = new Date();
+  codeExpiry.setHours(codeExpiry.getHours() + 12);
+  const { data: invitation , error} = await supa
+    .from('invitations')
+    .insert([
+      { 
+        access_code_expiry: codeExpiry.toISOString(),
+        inviter_id: userId,
+        invitee_phoneNum : phoneNum,
+        invitee_email: email,
+        access_code: generateCode(),
+        expiry_date: expDateValue,
+        user_role:  selectedRole,
+        permissions: selectedPermission
+         }
+    ])
+    .select()
+    .single();
+    console.log("Invitation data:", invitation);
+    console.log("Invitation error:", error);
+
+    saveTechnicianAssignments(invitation[0].invitation_id);
+    await sendCodeToInvitee(phoneNum, email, access_code);
+    console.log('sending invite');
+    //adding new user to users table
+    // const {data: newUserData, error: newUserError} = await supa
+    //      .from('users')
+    //      .insert([
+    //       { 
+    //         Username: username,
+    //         phoneNumber : phoneNum,
+    //         email: email,
+    //         role: selectedRole,
+    //         status: "pending"
+    //       }
+    //      ])
+    //      .select();
+});
+
+async function sendCodeToInvitee(phoneNum, email, rawCode) {
+
+  try {
+    const { error } = await supa.auth.signInWithOtp({ phone: phoneNum });
+
+    if (error) {
+      console.error(error);
+      alert("Error sending ACCESS CODE: " + error.message);
+      return;
+    }
+
+    console.log("OTP sent successfully to", validPhoneNumber);
+  } catch (err) {
+    console.error(err);
+    alert("Unexpected error sending OTP");
+  }
+};
+
+
+async function saveTechnicianAssignments(invitationID) {
+  e.preventPageLoad();
+  const wrappers = document.querySelectorAll("#farmStructureContainer .selectors");
+  const assignments = [];
+  wrappers.forEach(wrapper => {
+    const farmDropdown = wrapper.querySelector("select:nth-child(1)");
+    const structureDropdown = wrapper.querySelector("select:nth-child(2)");
+    const fID = farmDropdown.value;
+    const structureId = structureDropdown.value;
+    console.log(fID);
+    console.log(structureId);
+
+   if (fID && structureId){
+    assignments.push({
+      invitation_id: invitationID,
+            farmID: fID,
+            struct_id: structureId
+      });
+    }
+  });
+
+    if (assignments.length === 0) {
+        console.log("No assignments to save");
+        return;
+      }
+
+    const { data: techAssignment, error} = await supa
+         .from('technician_assignments')
+         .insert(assignments)
+         .select(`*`); 
+    if (error) {
+      console.error("Error saving assignments:", error);
+    } else {
+      console.log("Assignments saved:", techAssignment);
+    }
+
+}
+
+
+function setModalBlur(active) {
+  if (active) {
+    document.body.classList.add('modal-blur');
+  } else {
+    document.body.classList.remove('modal-blur');
+  }
+}
+function openCodeTableModal() {
+  document.getElementById("codeTableModal").style.display = "flex";
+  fetchInvitations();
+  setModalBlur(true);
+}
+function closeCodeTableModal() {
+  document.getElementById("codeTableModal").style.display = "none";
+  setModalBlur(false);
+}
+// Patch for invite modal (if any)
+const generateBtn = document.querySelector('.generate-btn');
+const accessModal = document.getElementById('accessCode');
+if (generateBtn && accessModal) {
+  generateBtn.addEventListener('click', () => setModalBlur(true));
+}
+</script>
+</body>
+
+
+</html>

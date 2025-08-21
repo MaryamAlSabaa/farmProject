@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="html">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Farm Details</title>
+  <link rel="stylesheet" href="css/farmerDashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="https://cdn.osmbuildings.org/classic/0.2.2b/OSMBuildings-Leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link href="https://fonts.googleapis.com/css2?family=Atlassian+Sans&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- <script src="OSMBuildings-Leaflet.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.geometryutil/0.9.3/leaflet.geometryutil.min.js"></script>
+    <script src="https://cdn.osmbuildings.org/classic/0.2.2b/OSMBuildings-Leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <!-- for the area -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-measure@3.3.0/dist/leaflet-measure.css">
+    <script src="https://unpkg.com/leaflet-measure@3.3.0/dist/leaflet-measure.min.js"></script>
+  <style>
+    
+@font-face {
+    font-family: 'SpotifyMixUITitle';
+    src: url('SpotifyMix-Regular.ttf') format('truetype'); 
+  }
+    
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-weight: 150;
+    font-family: 'SpotifyMixUITitle', sans-serif;
+}
+body{
+      background:   var(--primary-color);
+      overflow-x: hidden;
+      color: secondary-color;
+}
+    .header2 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: secondary-color;
+      padding-top: 60px;
+    }
+    .header2 h1 {
+      font-size: 25px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      width: 250px;
+    }
+    .btn {
+      background: secondary;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 45px;
+    }
+    .btn:hover{
+    transform: scale(1.09);
+    transition: all 1s ease;
+    }
+    .tabs {
+      margin: 20px 0;
+    }
+    .tabs button {
+      background: none;
+      border: none;
+      padding: 10px 20px;
+      margin-right: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.5s;
+      border-radius: 7px;
+    }
+    body.dark-theme .tabs button{
+      color:white;
+    }
+    .tabs button.active {
+      border-bottom: 2px solid #4caf50;
+      color: #4caf50;
+      padding: 10px 20px;
+      display: inline-block;
+      box-shadow: 0 8px 8px rgba(0,0,0,0.1);
+      background: rgba(65, 65, 65, 0.103);
+
+    }
+    #chooseGH{
+      margin-inline-start: 900px;
+    }
+    .section {
+      display: none;
+      background: rgba(65, 65, 65, 0.103);
+      border-bottom: 2px solid rgb(3, 3, 3); 
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.493);
+      padding: 18px;
+      border-radius: 7px;
+      /* width: 44%; */
+    }
+    .section.active {
+      display: block;
+    }
+        .gh-list button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      background: #f9f9f9;
+    }
+  #tasks {
+  padding: 1rem;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+.tasks-today h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+.task-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.task-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+}
+
+.task-card i {
+  font-size: 1.1rem;
+  color: #3ba55d;
+  margin-right: 0.75rem;
+}
+
+.task-info {
+  flex-grow: 1;
+}
+
+.task-info strong {
+  display: block;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 0.2rem;
+}
+
+.technician-card span {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.status-label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  background: #f3f4f6;
+  color: #555;
+  text-transform: capitalize;
+}
+
+.status-label.done {
+  background: #e6f7ed;
+  color: #2e7d32;
+}
+
+.status-label.pending {
+  background: #fff8e6;
+  color: #b76e00;
+}
+
+.status-label.overdue {
+  background: #fde8e8;
+  color: #b91c1c;
+}
+
+.task-card.success {
+  border-left-color: #4caf50;
+}
+
+.task-card.success i {
+  color: #4caf50;
+}
+
+.task-card.success .status-label {
+  background: #4caf50;
+}
+
+.task-card.pending {
+  border-left-color: #fbc02d;
+}
+
+.task-card.pending i {
+  color: #fbc02d;
+}
+
+.task-card.pending .status-label {
+  background: #fbc02d;
+  color: #333;
+}
+
+.task-card.alert {
+  border-left-color: #e53935;
+}
+
+.task-card.alert i {
+  color: #e53935;
+}
+
+.task-card.alert .status-label {
+  background: #e53935;
+}
+.row-wrapper{
+  margin-inline-start: 100px;
+}
+.technicians-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.technicians-section h2 {
+  text-align: center;
+  font-size: 1.9rem;
+  color: var(--primary-color);
+  /* margin-bottom: 30px; */
+}
+.technician-card {
+  background: #ffffff;
+  border-left: 4px solid var(--secondary-color);
+  border-radius: 6px;
+  padding: 10px ;
+  min-width: 160px;
+  max-width: 220px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.technician-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.technician-card img {
+  width: 50px;
+  border-radius: 50%;
+  border: 3px solid var(--secondary-color);
+  align-items: center;
+}
+/* 
+.technician-card h4 {
+  margin: 8px 0 4px;
+  font-size: 1.1rem;
+  color: #333;
+} */
+
+.technician-card  span {
+  font-size: 0.85rem;
+  color: #777;
+}
+/* .technician-card span {
+  display: block;
+  font-size: 0.875rem;
+  color: #555;
+  margin-bottom: 2px;
+} */
+.technician-card h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #222;
+}
+.row-wrapper {
+  display: flex;
+  gap: 1rem; 
+  align-items: flex-start; 
+
+}
+.regular-txt{
+  font-weight: 400;
+}
+.main-container{
+  /* width: 630px; */
+  /* height: 406px; */
+  /* flex: 1 1 0; */
+  z-index: 1;
+  border-radius: 12px;
+  padding-top: 15px;
+  margin-bottom: 20px;
+
+}
+.weather-info{
+  display: flex;
+  flex-direction: column;
+  margin-inline-start: -10px;
+  width: 620px;
+  /* margin-top: 3px; */
+}
+.temp-txt{
+  font-size: 2.9em;
+  font-weight: 130;
+}
+.condition-txt{
+  color:rgb(90, 90, 90);
+  font-size: 13px;
+}
+.location-date-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.location{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.weather-summary-img{
+  width:95px;
+}
+.weather-summary-container{
+  margin-top: 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.weather-summary-info{
+  text-align: end;
+}
+.weather-conditions-container{
+  margin-top: 35px;
+  display: flex;
+  justify-content: space-between;
+}
+.condition-item{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.condition-item i{
+  font-size: 23px;
+}
+.today-forecast-txt{
+  margin-top: 35px;
+  color:rgb(90, 90, 90);
+  font-size: 0.9rem;
+  margin-bottom: none;
+  }
+.forecast-item{
+  min-width: 75px;
+  background: rgba(65, 65, 65, 0.103);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;    
+  border-radius: 12px;
+  transition: 0.3s background;
+}
+.forecast-item-container{
+  margin-top: 14px;
+  display: flex;
+  gap: 15px;
+  overflow:scroll;
+  padding-bottom: 12px;
+}
+.forecast-item-container::-webkit-scrollbar{
+  height: 8px;
+}
+.forecast-item-container::-webkit-scrollbar-track{
+  background: none;
+  /* border-radius: 99px; */
+}
+.forecast-item-container::-webkit-scrollbar-thumb{
+  background: rgb(0,0,0,0.15);
+  border-radius: 99px;
+}
+.forecast-item-time{
+  font-size: 12px;
+}
+.forecast-item-img{
+  width:30px;
+}
+.week-forecast-container{
+  /* margin-top: 85px; */
+  width: 300px;
+  padding:20px;
+  /* height: 440px; */
+  border-radius: 20px;
+  z-index: 1;
+  background: rgba(65, 65, 65, 0.103);
+  /* margin-left: -100px; */
+}
+.week-forecast-container .week-forecast-txt{
+  font-size: 14px;
+  color: rgb(90, 90, 90);
+}
+.week-forecast-item{
+  color: rgb(90, 90, 90);
+  padding-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.forecast-item-temp{
+  color: white;
+}
+.week-forecast-item {
+  border-bottom: 1px solid rgba(90, 90, 90, 0.32);
+  padding-bottom: 0.65rem;
+ }
+.week-forecast-item:last-child {
+  border-bottom: none;
+}
+.forecast-item:hover{
+  background: rgb(255,255,255,0.15);
+}
+.weather-title{
+  /* margin-bottom: 15px; */
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.mapTitle{
+  margin-top: 20px;
+  margin-bottom: 20px !important;
+  margin-inline-start: 95px;
+  font-size: 18px;
+}
+#map{
+  /* margin-top: 925px !important; */
+  width: 86%;
+  margin-inline-start: 90px;
+  z-index: 1 !important;
+  height: 400px;
+}
+
+  </style>
+</head>
+<body>
+  <div class="sidebar-container"></div>
+   <div class="page-wrapper"></div>
+  <div class="all-container"
+       style=
+       "margin-inline-start: 80px; 
+       transition: all 0.3s ease;
+        position: relative;
+      ">
+    <div id="header-container"></div>
+    <div class="header2" >
+      <h1 class="farm-name"></h1>
+      <!-- <a href="growLocation.html"> -->
+      <button class="btn" id="chooseGH" data-key="growLoc"></button>
+      </a>
+    </div> 
+    <div class="main" style="display: flex; align-items: flex-start; gap:100px; width: 97%; margin-inline-start: 20px;">
+      <div class="main-container">
+        <div class="tabs">
+          <button class="tab active" data-target="overview" data-key="overview">Overview</button>
+          <button class="tab" data-target="tasks" data-key="tasks">Tasks</button>
+          <button class="tab" data-target="technicians" data-key="technicians" onclick="fetchTechnicians()">Technicians</button>
+          <!-- <button class="tab" data-target="reports" data-key="reports">Reports</button> -->
+        </div>
+        <div class="header">
+          <div class="search-box">
+            <i class="fa fa-search"></i>
+            <input data-key="searchBar" type="text" placeholder="Search crops, plants, farm" />
+          </div>
+          <div class="lang-toggle" id="lang-toggle">
+            <span class="lang active" id="en">EN</span>
+            <span class="lang" id="ar">ع</span>
+          </div>
+          <i class="help-btn fa-solid fa-circle-info" id="help"></i>
+          <i class="fa-solid fa-moon" style="margin-inline-start: 26px; font-size: 20px;   transition: all 0.5s;" id="icon"></i>
+          <i class="fa-solid fa-bell" id="alert"></i>
+          <i class="fa-solid fa-gear"></i>
+        </div>
+      
+    <div id="overview" class="section active" >
+      <h2 style="font-size: 18px; margin-bottom: 5px; font-weight: 600; color: #34495e;" data-key="farmoverview"></h2>
+      <div style="display: flex;">
+        <p data-key="location" style="margin-inline-end: 6px; font-weight: 600; color: #34495e;"></p>
+        <p id="SFlocation" data-key="SFlocation"></p>
+      </div>
+      <div style="display: flex;">
+        <p data-key="cropsTypes" style="margin-inline-end: 6px; font-weight: 600; color: #34495e;"></p>
+        <p id="SFcrops" data-key="SFcrops"></p>
+      </div>
+      <div style="display: flex;">
+        <p data-key="growLocs" style="margin-inline-end: 6px; font-weight: 600; color: #34495e;"></p>
+        <p id="SFgrowLocations" data-key="SFgrowLocations"></p>
+      </div>
+    </div>
+   
+
+  <div id="tasks" class="section">
+    <div class="tasks-today">
+      <h2>Tasks Today</h2>
+      <div id="task-list"></div>
+    </div>
+  </div>
+  
+  <div id="technicians" class="section technicians-section">
+    <div class="technicians-grid">
+    
+    </div>
+  </div>
+  </div>
+
+  <!-- <div id="reports" class="section">
+    <h2>Farm Reports</h2>
+    <p>Last harvest yield: 320 kg</p>
+    <p>Pest alert: None</p>
+  </div> -->
+
+  <!-- <div id="inventory" class="section">
+    <h2>Inventory</h2>
+    <p>Water Tanks: 70%</p>
+    <p>Fertilizer: 12 bags</p>
+  </div> -->
+  
+  <div id="alerts"  style=" flex:1; background: transparent !important; border: none !important;
+        padding: 6px 6px; color: #333; margin-top: 20px; max-width: 435px;">
+      <h2 data-key="alerts" style=" font-size: 20px; font-weight: 600; letter-spacing: 0.06em; margin-bottom: 15px;
+      color: secondary-color; border-bottom: 2px solid #eaeaea; padding-bottom: 8px; text-transform: uppercase;"></h2>
+    <ul style="
+    list-style-type: none;  padding-left: 0; margin: 0;
+    color: #666; font-size: 16px;  line-height: 1.6;  font-style: italic;
+    ">
+    <li>No current alerts.</li>
+    </ul>
+</div>
+</div>
+
+</div>
+ 
+
+  
+  <div class="row-wrapper">
+    <div class="main-container-weather" style="margin-top: 25px;">
+    
+        <section class="weather-info" style="margin-inline-end: 120px; ">
+          <h2 class="weather-title" data-key="weatherFC"></h2>
+            <div class="location-date-container">
+                <div class="location">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <h4 class="country-txt"></h4>
+                </div>
+                <h5 class="current-date-txt regular-txt">Date</h5>
+            </div>
+            <div class="weather-summary-container">
+                <img src="media\sun.png" class="weather-summary-img">
+                <div class="weather-summary-info">
+                    <h1 class="temp-txt">35 °C</h1>
+                    <div style="display: flex; align-items: center; gap: 5px;"><h3 class="condition-txt regular-txt" data-key="precipitation"></h3><h3 class="precipitation-value-txt" style="font-size: 14px; color: #4d6837;">0mm</h3></div>
+                    <div style="margin-top: 5px; font-size: 12px; color: #666;">
+                        <span>📈 <span class="current-max-temp">0</span>°</span>
+                        <span style="margin-left: 10px;">📉 <span class="current-min-temp">0</span>°</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weather-conditions-container">
+                <div class="condition-item">
+                    <i class="fa-solid fa-droplet"></i>
+                    <div class="condition-info">
+                        <h5 class="regular-txt" data-key="humidity"></h5>
+                        <h5 class="humidity-value-txt"></h5>
+                    </div>
+                </div>
+
+                <div class="condition-item">
+                    <i class="fa-solid fa-wind"></i>
+                    <div class="condition-info">
+                        <h5 class="regular-txt" data-key="windSpeed"></h5>
+                        <h5 class="wind-value-txt"></h5>
+                    </div>
+                </div>
+
+                <div class="condition-item">
+                    <i class="fa-solid fa-temperature-low"></i>
+                    <div class="condition-info">
+                        <h5 class="regular-txt" data-key="dewpoint"></h5>
+                        <h5 class="dewpoint-value-txt">29°</h5>
+                    </div>
+                </div>
+
+                <div class="condition-item">
+                    <i class="fa-solid fa-temperature-arrow-up"></i>
+                    <div class="condition-info">
+                        <h5 class="regular-txt" data-key="uv"></h5>
+                        <h5 class="uv-value-txt"></h5>
+                    </div>
+                </div>
+
+                <div class="condition-item">
+                    <i class="fa-solid fa-water" style="color: #4d6837;"></i>
+                    <div class="condition-info">
+                        <h5 class="regular-txt" data-key="soilMoisture"></h5>
+                        <h5 class="soil-moisture-value-txt"></h5>
+                    </div>
+                </div>
+            </div>
+            <p class="today-forecast-txt" data-key="todaysFC"></p>
+            <div class="forecast-item-container">
+                </div>
+            </div>
+        
+        </section>
+        <div class="week-forecast-container" style="margin-top: 25px;">
+            <span class="week-forecast-txt" data-key="weekFC"></span>
+                <div class="week-forecast-item">
+                    <h5 class="forecast-item-date" regular-txt>Today</h5>
+                    <img src="media/sun.png" class="forecast-item-img">
+                    <h5 class="forecast-item-temp">39 °C</h5>
+                </div>
+                <div class="week-forecast-item">
+                    <h5 class="forecast-item-date" regular-txt>Tue</h5>
+                    <img src="media/sun.png" class="forecast-item-img">
+                    <h5 class="forecast-item-temp">39 °C</h5>
+                </div>
+                <div class="week-forecast-item">
+                    <h5 class="forecast-item-date" regular-txt>Wed</h5>
+                    <img src="media/sun.png" class="forecast-item-img">
+                    <h5 class="forecast-item-temp">39 °C</h5>
+                </div>
+                <div class="week-forecast-item">
+                    <h5 class="forecast-item-date" regular-txt>Thu</h5>
+                    <img src="media/sun.png" class="forecast-item-img">
+                    <h5 class="forecast-item-temp">39 °C</h5>
+                </div>
+                <div class="week-forecast-item">
+                    <h5 class="forecast-item-date" regular-txt>Fri</h5>
+                    <img src="media/sun.png" class="forecast-item-img">
+                    <h5 class="forecast-item-temp">39 °C</h5>
+                </div>
+                <div class="week-forecast-item">
+                    <h5 class="forecast-item-date" regular-txt>Sat</h5>
+                    <img src="media/sun.png" class="forecast-item-img">
+                    <h5 class="forecast-item-temp">39 °C</h5>
+                </div>
+                <div class="week-forecast-item">
+                    <h5 class="forecast-item-date" regular-txt>Sun</h5>
+                    <img src="media/sun.png" class="forecast-item-img">
+                    <h5 class="forecast-item-temp">39 °C</h5>
+                </div>
+        </div>
+  </div>   
+</div>
+
+  <h3 class="mapTitle">Farm Map</h3>
+  <div id="map"></div>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+    <!-- <script src="js/farmerDashboard.js"></script> -->
+    <script src="js/importHeaderBar.js"></script>
+    <script src="js/translation.js"></script>
+
+</body>
+  <script type="module">
+    
+    const countryElement = document.querySelector('.country-txt');
+    // const API_KEY = '4a3c116d2fa56338e6aa52b83240c51a';
+
+    async function fetchWeatherDataOmete(lat, lng) {
+    // Construct the API URL
+    const apiURL = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&hourly=temperature_2m,apparent_temperature,precipitation,relative_humidity_2m,soil_moisture_0_1cm,wind_speed_10m,uv_index,dewpoint_2m&daily=temperature_2m_max,temperature_2m_min&timezone=Asia/Dubai`;
+    console.log("Fetching URL:", apiURL);
+
+    try {
+        const resp = await fetch(apiURL);
+        if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+        const data = await resp.json();
+      console.log("heree");
+        // Parse hourly data
+        const hourly = {
+            time: data.hourly.time.map(t => new Date(t)),
+            temperature_2m: data.hourly.temperature_2m,
+            apparent_temperature: data.hourly.apparent_temperature,
+            precipitation: data.hourly.precipitation,
+            humidity_2m: data.hourly.relative_humidity_2m,
+            soil_moisture_0_1cm: data.hourly.soil_moisture_0_1cm,
+            wind_speed_10m: data.hourly.wind_speed_10m,
+            uv_index: data.hourly.uv_index,
+            dewpoint_2m: data.hourly.dewpoint_2m
+        };
+
+        // Parse daily data
+        const daily = {
+            time: data.daily.time.map(t => new Date(t)),
+            temperature_2m_max: data.daily.temperature_2m_max,
+            temperature_2m_min: data.daily.temperature_2m_min,
+        };
+
+        return { hourly, daily };
+
+    } catch (err) {
+        console.error("Error fetching Open-Meteo data:", err);
+        return null;
+    }
+}
+
+
+  function updateWeatherUI(weatherData) {
+    console.log("updateWeatherUI called with:", weatherData);
+    
+    if (!weatherData || !weatherData.hourly || !weatherData.daily) {
+      console.error("Invalid weather data structure:", weatherData);
+      return;
+    }
+
+    const { hourly, daily } = weatherData;
+    console.log("Processing hourly data:", hourly);
+    console.log("Processing daily data:", daily);
+    
+    // Update current weather summary
+    const currentTemp = hourly.temperature_2m[0];
+    const feelsLike = hourly.apparent_temperature[0];
+    const currentHumidity = hourly.humidity_2m[0];
+    const currentWindSpeed = hourly.wind_speed_10m[0];
+    const currentUV = hourly.uv_index[0];
+    const currentSoilMoisture = hourly.soil_moisture_0_1cm[0];
+    const currentDewpoint = hourly.dewpoint_2m[0];
+    
+    // Update main temperature and feels like
+    const tempElement = document.querySelector('.temp-txt');
+    if (tempElement) tempElement.textContent = `${Math.round(currentTemp)} °C`;
+    
+    // Add feels like below temperature
+    const feelsLikeElement = document.querySelector('.feels-like-txt') || createFeelsLikeElement();
+    if (feelsLikeElement) feelsLikeElement.textContent = `Feels like ${Math.round(feelsLike)} °C`;
+    
+    // Update precipitation
+    const currentPrecipitation = hourly.precipitation[0];
+    const precipitationElement = document.querySelector('.precipitation-value-txt');
+    if (precipitationElement) precipitationElement.textContent = `${Math.round(currentPrecipitation)}mm`;
+    
+    // Update summary weather info with today's min/max
+    const todayMaxTemp = daily.temperature_2m_max[0];
+    const todayMinTemp = daily.temperature_2m_min[0];
+    const currentMaxElement = document.querySelector('.current-max-temp');
+    const currentMinElement = document.querySelector('.current-min-temp');
+    if (currentMaxElement) currentMaxElement.textContent = Math.round(todayMaxTemp);
+    if (currentMinElement) currentMinElement.textContent = Math.round(todayMinTemp);
+    
+    // Update weather conditions
+    const humidityElement = document.querySelector('.humidity-value-txt');
+    const windElement = document.querySelector('.wind-value-txt');
+    const dewpointElement = document.querySelector('.dewpoint-value-txt');
+    const uvElement = document.querySelector('.uv-value-txt');
+    const soilMoistureElement = document.querySelector('.soil-moisture-value-txt');
+    
+    if (humidityElement) humidityElement.textContent = `${Math.round(currentHumidity)}%`;
+    if (windElement) windElement.textContent = `${Math.round(currentWindSpeed)} km/h`;
+    if (dewpointElement) dewpointElement.textContent = `${Math.round(currentDewpoint)}°`;
+    if (uvElement) uvElement.textContent = Math.round(currentUV);
+    if (soilMoistureElement) soilMoistureElement.textContent = `${Math.round(currentSoilMoisture)}%`;
+    
+    // Update today's hourly forecast
+    updateTodayForecast(hourly);
+    
+    // Update weekly forecast
+    updateWeeklyForecast(daily);
+    
+    // Update current date
+    updateCurrentDate();
+  }
+  
+  function updateCurrentDate() {
+    const currentDateElement = document.querySelector('.current-date-txt');
+    if (currentDateElement) {
+      const now = new Date();
+      const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      };
+      currentDateElement.textContent = now.toLocaleDateString('en-US', options);
+    }
+  }
+
+  function createFeelsLikeElement() {
+    const feelsLikeDiv = document.createElement('div');
+    feelsLikeDiv.className = 'feels-like-txt';
+    feelsLikeDiv.style.cssText = 'font-size: 14px; color: #888; margin-top: -5px; font-weight: 300;';
+    
+    const weatherSummaryInfo = document.querySelector('.weather-summary-info');
+    weatherSummaryInfo.appendChild(feelsLikeDiv);
+    
+    return feelsLikeDiv;
+  }
+
+  function updateTodayForecast(hourly) {
+    if (!hourly || !hourly.time || !hourly.temperature_2m || !hourly.precipitation) {
+      console.error("Invalid hourly data structure:", hourly);
+      return;
+    }
+    
+    const container = document.querySelector('.forecast-item-container');
+    if (!container) {
+      console.error("Forecast container not found");
+      return;
+    }
+    
+    container.innerHTML = '';
+    
+    // Show forecast for next 8 hours (every 3 hours)
+    const timeSlots = [0, 3, 6, 9, 12, 15, 18, 21];
+    
+    timeSlots.forEach(hour => {
+      if (hour < hourly.time.length) {
+        const time = new Date(hourly.time[hour]);
+        const temp = hourly.temperature_2m[hour];
+        const precipitation = hourly.precipitation[hour];
+        
+        const forecastItem = document.createElement('div');
+        forecastItem.className = 'forecast-item';
+        
+        const timeStr = time.toLocaleTimeString('en-US', { 
+          hour: 'numeric', 
+          minute: '2-digit',
+          hour12: true 
+        });
+        
+        forecastItem.innerHTML = `
+          <h5 class="forecast-item-time" regular-txt>${timeStr}</h5>
+          <img src="media/sun.png" class="forecast-item-img">
+          <div style="display: flex; flex-direction: column; gap: 2px; align-items: center;">
+            <small style="color: #666; font-size: 11px;">💧 ${Math.round(precipitation)}mm</small>
+            <small style="color: #888; font-size: 10px;">${Math.round(temp)}°C</small>
+          </div>
+        `;
+        
+        container.appendChild(forecastItem);
+      }
+    });
+  }
+
+  function updateWeeklyForecast(daily) {
+    console.log("updateWeeklyForecast called with:", daily);
+    
+    if (!daily || !daily.time || !daily.temperature_2m_max || !daily.temperature_2m_min ) {
+      console.error("Invalid daily data structure:", daily);
+      return;
+    }
+    
+    const container = document.querySelector('.week-forecast-container');
+    if (!container) {
+      console.error("Weekly forecast container not found");
+      return;
+    }
+    
+    console.log("Found weekly forecast container, rebuilding content...");
+    container.innerHTML = '';
+    // title
+    const titleSpan = document.createElement('span');
+    titleSpan.className = 'week-forecast-txt';
+    titleSpan.setAttribute('data-key', 'weekFC');
+    container.appendChild(titleSpan);
+    
+    // Create 7-day forecast items
+    for (let i = 0; i < 7 && i < daily.time.length; i++) {
+      const maxTemp = daily.temperature_2m_max[i];
+      const minTemp = daily.temperature_2m_min[i];
+      const soilMoisture = 0;
+      
+      // Create forecast item
+      const forecastItem = document.createElement('div');
+      forecastItem.className = 'week-forecast-item';
+      
+      // Get day name
+      const date = new Date(daily.time[i]);
+      const dayName = i === 0 ? 'Today' : date.toLocaleDateString('en-US', { weekday: 'short' });
+      
+      // Choose weather icon based on precipitation
+      // let weatherIcon = 'media/sun.png';
+      // if (precipitation > 5) {
+      //   weatherIcon = 'media/sun.png'; // Using sun for now, you can add rain.png later
+      // } else if (precipitation > 0) {
+      //   weatherIcon = 'media/sun.png'; // Using sun for now, you can add cloud.png later
+      // }
+      
+      forecastItem.innerHTML = `
+        <h5 class="forecast-item-date" regular-txt>${dayName}</h5>
+        <h5 class="forecast-item-temp">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+            <div style="font-size: 16px; font-weight: 600;">
+              <span style="color: #ff6b6b;">${Math.round(maxTemp)}°</span> / 
+              <span style="color: #4ecdc4;">${Math.round(minTemp)}°</span>
+            </div>
+            <div style="display: flex; gap: 8px; font-size: 10px; color: #666;">
+              <span>🌱 ${Math.round(soilMoisture)}%</span>
+            </div>
+          </div>
+        </h5>
+      `;
+      
+      container.appendChild(forecastItem);
+    }
+    
+    // Trigger translation after creating new elements
+    if (window.translationUtils && window.translationUtils.translateDynamicContent) {
+      const currentLang = localStorage.getItem('language') || 'en';
+      window.translationUtils.translateDynamicContent(currentLang);
+    }
+  }
+
+
+    const lang = getCurrentLanguage();
+    function getCurrentLanguage() {
+      return localStorage.getItem("language") || "en";
+    }
+    
+    // Check if Supabase is properly initialized
+    console.log("Supabase client:", supa);
+    if (!supa) {
+      console.error("Supabase client not initialized!");
+    }
+    
+    
+    
+     window.fetchTechnicians = async function(){
+      // view farm technicians
+    const techCardsContainer = document.querySelector('.technicians-grid');
+    techCardsContainer.innerHTML = "";
+    const   { data: techData , error: techError} = await supa
+     .from('technician_assignments')
+     .select(`
+      invitation: invitations(invitee_name),
+      structure: FarmStructures(structure_id, structure_name)
+    `)
+    .eq('farmID', farmID)
+
+    // console.log("data: ", techData);
+    // renderTechnicians(techData);
+   
+  const techMap={};
+
+  techData.forEach(a => {
+    const name = a.invitation.invitee_name;
+    const structName = a.structure.structure_name;
+    // console.log(structName);
+    if (!techMap[name]) {
+      techMap[name] = [];
+    }
+    techMap[name].push(structName);
+  });
+
+  Object.entries(techMap).forEach(([name, structures]) => {
+    const card = document.createElement("div");
+    card.classList.add("technician-card");
+
+    const h4 = document.createElement("h4");
+    h4.innerText = name;
+    card.appendChild(h4);
+
+    structures.forEach(s => {
+      const span = document.createElement("span");
+      span.innerText = s;
+      card.appendChild(span);
+      card.appendChild(document.createElement("br"));
+    });
+
+    techCardsContainer.appendChild(card);
+  });
+}
+    // Tab switching logic
+    const tabs = document.querySelectorAll('.tab');
+    const sections = document.querySelectorAll('.section');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        sections.forEach(s => s.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.target).classList.add('active');
+      });
+    });
+    // fetching farm id
+    const params = new URLSearchParams(window.location.search);
+    const farmID = params.get("id");
+    // console.log(farmID);
+    // console.log(farmID);
+    if (farmID) {
+      loadFarm(farmID);
+    } else {
+      console.error("No farm id found in URL");
+    }
+
+    async function loadFarm(id) {
+      const { data: structureData, error: structureError} = await supa
+        .from('FarmStructures')
+        .select(`*`)
+        .eq("farm_id", id);
+        const typesCount = {};
+        structureData.forEach(struct => {
+          const type = struct.structure_type;
+          if (typesCount[type]){
+            typesCount[type]++;
+          } else{
+            typesCount[type]=1;
+          }
+        })
+
+        if (structureError) {
+          console.error("Error fetching farm:", structureError);
+          return;
+      }
+      // document.getElementById('SFgrowLocations').textContent = typesCount;
+      const structDiv= document.getElementById('SFgrowLocations');
+      structDiv.innerHTML= '';
+      const structText= Object.entries(typesCount)
+         .map(([type, count]) => `${translations[lang][type]}: ${count}`) 
+         .join(', ');
+         structDiv.innerText = structText;
+      
+      const {data: tasks, error: taskError} = await supa
+        .from('tasks')
+        .select(` 
+          task_id,
+          farm_id,
+          assignee,
+          due_date,
+          priority,
+          status,
+          description,
+          structure_id: FarmStructures(structure_id, structure_name)
+          `)
+        .eq("farm_id", id);
+
+        const taskList = document.getElementById("task-list");
+        taskList.innerHTML = "";
+        tasks.forEach(task => {
+          console.log(task.structure_id?.structure_name);
+          const taskCard = document.createElement("div");
+          taskCard.classList.add("task-card");
+
+          if (task.status === "Completed") {
+            taskCard.classList.add("success");
+          } else if (task.status === "Pending") {
+            taskCard.classList.add("pending");
+          }
+
+          taskCard.innerHTML = `
+             <i class="fa-solid fa-seedling"></i>
+            <div class="task-info">
+              <strong>${task.description}</strong>
+              <span>${task.structure_id?.structure_name}</span>
+            </div>
+            <span class="status-label">${task.status}</span>
+
+          `;
+          taskList.appendChild(taskCard);
+
+        });
+        const { data, error } = await supa
+        .from('Farms')
+        .select(`*`)
+        .eq("farm_id", id)
+        .single();
+
+      addFarmMap(data, structureData);
+      if (error) {
+          console.error("Error fetching farm:", error);
+          return;
+      }
+      
+      console.log("Farm data received:", data);
+      console.log("Farm shape_geojson:", data.shape_geojson);
+      let lng, lat ;
+      
+      try{ 
+        const coords = data.shape_geojson?.coordinates?.[0]?.[0]; // [lng, lat]
+        if (!coords) {
+        console.error("Coordinates not found!");
+        } else {
+          [lng, lat] = coords;
+          console.log("Longitude:", lng, "Latitude:", lat);
+        }
+       
+          console.log("hii");
+
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=${lang}`);
+          const dataObj = await res.json() ;// from this, we get the data javascript object
+          const location = dataObj.address?.city || dataObj.address?.town || dataObj.address?.state || "Unknown";
+          const region = dataObj.address?.state || "";
+
+          // querySelector('.farm-location').textContent = `${location}, ${region}`;
+          document.getElementById("SFlocation").textContent = `${location}, ${region}`;
+          document.querySelector(".farm-name").textContent = data.Farm_name;
+          countryElement.textContent = `${location}` ;  
+        } catch (err) {
+          console.error("Error fetching location:", err);
+        }
+  
+         // weather data
+         const WeatherData = await fetchWeatherDataOmete(lat, lng);
+      if (WeatherData) {
+        console.log("Test weather data received:", WeatherData);
+        updateWeatherUI(WeatherData);
+      } else {
+        console.error("Test weather data failed");
+      }          
+          // Update weather UI with fetched data
+          // if (WeatherData) {
+          //   console.log("Weather data received, updating UI...");
+          //   console.log("Daily data:", WeatherData.daily);
+          //   console.log("Hourly data:", WeatherData.hourly);
+          //   updateWeatherUI(WeatherData);
+          // } else {
+          //   console.error("No weather data received");
+          // }
+      // document.getElementById("SFcrops").textContent = `${location}, ${region}`;
+      // document.getElementById("SFgrowLocations").textContent = data.location || "Unknown";
+}
+
+async function addFarmMap(farm, structures){
+  const shape = typeof farm.shape_geojson === "string" 
+  ? JSON.parse(farm.shape_geojson) 
+  : farm.shape_geojson;
+  // farm polygon reversed
+  const farmCoords = shape.coordinates[0].map(coord => [coord[1], coord[0]]);
+    // compute farm centroid
+    const latSum = farmCoords.reduce((sum, coord) => sum + coord[0], 0);
+  const lngSum = farmCoords.reduce((sum, coord) => sum + coord[1], 0);
+  const center = [latSum / farmCoords.length, lngSum / farmCoords.length];
+
+  const map = L.map('map').setView(center, 17);
+
+  L.tileLayer('https://api.maptiler.com/tiles/satellite-v2/{z}/{x}/{y}.jpg?key=1t5oDUJ2R2L0CtfceejE', {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+  //drawing
+  const farmLayer = L.polygon(farmCoords, {
+    color: "green",
+    fillColor: "#4CAF50",
+    fillOpacity: 0.5
+  }).addTo(map);
+
+  farmLayer.bindPopup(farm.Farm_name);
+
+  //looping through the structures inside the farm
+  // structures.forEach(structure => {
+  //   const structureCoords = structure.shape_geojson?.coordinates?.[0]?.map(coord => [coord[1], coord[0]]);
+
+  // if (!structureCoords) {
+  //   console.error("Structure coordinates not found!");
+  // } else {
+  //   console.log("Structure coordinates (lat, lng):", structureCoords);
+  // }
+  //   const structureLayer = L.polygon(structureCoords, {
+  //     color: "blue",
+  //     fillColor: "#2196F3",
+  //     fillOpacity: 0.5
+  //   }).addTo(map);
+  //   structureLayer.bindPopup(structure.Structure_name);
+  // });
+}
+  </script>
+</html>

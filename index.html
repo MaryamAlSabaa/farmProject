@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="html">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zira'atna.ae</title>
+  <link href="https://fonts.googleapis.com/css2?family=Atlassian+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  
+</head>
+
+    <body>
+      <section class="video-hero">
+        <div class="custom-cursor"></div>
+         <div class="video-container">
+            <video src="media\signBackground.mp4" autoplay loop muted></video>
+            <div class="shadow"></div>
+         </div>
+        <!-- <div class="overlay-content"></div> -->
+          <header class="hero-header">
+            <div class="menu-icon">
+              <a href="#" onclick=showSidebar()><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg></a>
+            </div>
+              <div class="lang-toggle" id="lang-toggle" onclick="toggleLanguage()">E | ع</div>
+          </header>
+
+          <nav class="nav">
+            <ul class="sidebar">
+              <li><a href="#" id="x-button" onclick=hideSidebar()><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></a></li>
+              <li><a href="index.html" id="home" data-key="home">Home</a></li>
+              <li><a href="#" id="about" data-key="about">About Us</a></li>
+              <li><a href="#" id="features" data-key="features">Features</a></li>
+              <li><a href="#" id="pricing" data-key="pricing">Pricing</a></li>
+              <li><a href="#" id="contact" data-key="contact">Contact Us</a></li>
+              <li><a href="signUp.html" id="register" data-key="register">Register</a></li>
+              <div class="cursor"></div>
+            </ul>
+          </nav>
+              <h1 id="title" data-key="title">Do you want to explore more?</h1>
+              <button id="imready-btn" data-key="imready-btn">I'm Ready</button>
+          </section>
+          
+          <div class="main-container-cursor"></div>
+
+          <section class="main-container">
+
+            <marquee>
+            <div class="scroller__inner">
+            <ul class="tag-list scroller__inner">
+              <li>Roots  </li> <!--eng-->
+              <li>جذور  </li> 
+              <li>Racines  </li> <!--fre-->
+              <li>Корни  </li> <!--russian-->
+              <li>जड़े  </li> <!--hindi-->
+              <li>Raíces  </li> <!--spanish-->
+              <li>שורשים   </li> <!--herbew-->
+              <li>Radici  </li> <!--italian-->
+            </ul>
+            </div>
+            </marquee>
+           <div class="aboutUs">
+            <h2 class="news-txt aboutus-title" id="aboutus-title" data-key="aboutus-title">About Us</h2>
+              <p>
+                Our platform offers a seamless digital experience to manage farms, monitor crops, assign tasks, and track performance—all in one place. With a focus on precision, data-driven decisions, and a user-first design, we’re redefining how agriculture is managed in the modern era.
+              </p>
+           </div>
+            <div class="features-container">
+              <h2 class="news-txt section-title" id="features" data-key="features">Our Features</h2>
+              <div class="features-grid">
+                <div class="feature-card">
+                  <i class="fa-solid fa-sun-plant-wilt"></i>
+                   <h3>Eco-Friendly</h3>
+                  <p>We use sustainable practices to protect the environment.</p>
+                </div>    
+            <div class="feature-card">
+              <i class="fa-solid fa-truck"></i>
+              <h3>Fast Delivery</h3>
+              <p>Timely and efficient delivery straight to your doorstep.</p>
+            </div>
+
+            <div class="feature-card">
+              <i class="fa-solid fa-leaf"></i>
+              <h3>Fresh Produce</h3>
+              <p>Guaranteed freshness from farm to table, every time.</p>
+            </div>
+           </div>      
+            </div>          
+
+            <h2 class="news-txt"  id="news" data-key="news">News</h2>
+            <div class="news-section-container">
+              <div class="info-box"></div>
+              <div class="info-box"></div>
+              <div class="info-box"></div>
+            </div>
+            
+            <div class="farmer-word">
+              <div class="clients-left">
+                <span>Clients</span>
+                <p>Real words from the people we’ve partnered with — honest feedback, lasting impact.</p>
+            </div> 
+            <img src="media/i.png">
+            </div>
+            <div class="contact-container">
+              <p class="get-in-touch">GET IN TOUCH</p>
+              <h2 class="contactUs-header"  id="contactus" data-key="contactus">Contact Us</h2>
+              <img src="media/nets.jpg">
+              <form action="#" method="post">
+
+                <div class="form-group">
+                  <label for="name">What’s your good name?</label>
+                  <input type="text" id="name" name="name" placeholder="e.g. Maryam Al Sabaa" required />
+                </div>
+            
+                <div class="form-group">
+                  <label for="email">What’s your web address?</label>
+                  <input type="email" id="email" name="email" placeholder="e.g. you@example.com" required />
+                </div>
+            
+                <div class="form-group">
+                  <label for="message">What do you want to say?</label>
+                  <textarea id="message" name="message" rows="6" placeholder="Your message here..." required></textarea>
+                </div>
+
+                <button type="submit" class="contact-btn">Send Message</button>
+
+              </form>
+            </div>
+          </section>
+          
+      <script src="js/lang.js"></script>
+      <script src="js/translate.js" defer></script>
+
+      
+    </body>
+</html>
+
+
+    <!-- <section class="crops">
+    //     <h2>Our Crops</h2>
+    //     <div class="crop-grid">
+    //     <div class="crop-card">🌴 Dates</div>
+    //     <div class="crop-card">🍅 Tomatoes</div>
+    //     <div class="crop-card">🥒 Cucumbers</div>
+    //     </div>
+    // </section> -->

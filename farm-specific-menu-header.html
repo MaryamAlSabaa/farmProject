@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crop Overview</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- <link rel="stylesheet" href="farmerDashboard.css" /> -->
+
+</head> 
+<style>
+    *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "PT Serif", serif;
+    font-weight: 600;
+}
+    body{
+        margin-left: 74px;
+    }
+    
+  .sidebar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 80px;
+    padding: 0.4rem 0.8rem; 
+    transition: all 0.5s ease;
+    background-color:  var(--secondary-color);
+    box-shadow: 
+      5px 0px 10px rgb(105, 105, 105),          
+      inset 5px 0px 10px rgba(105, 105, 105, 0.963);
+    z-index: 1000;
+  }
+  .sidebar.active ~ .main-content{
+    left: 250px;
+    width: calc(100% - 250px);
+  }
+  .sidebar.active{
+    width: 200px;
+  }
+  
+  .sidebar #btn{
+    position: absolute;
+    color: white;
+    top: .4rem;
+    left: 50%;
+    font-size: 1.2rem;
+    line-height: 50px;
+    transform: translateX(-50%);
+    cursor: pointer;
+  }
+  .sidebar.active #btn{
+    left: 92%;
+  }
+  .sidebar .top .logo{
+    display:flex;
+    height: 59px;
+    width: 100%;
+    align-items: center;
+    pointer-events: none;
+    opacity: 0;
+  }
+  .sidebar.active .top .logo{
+    opacity: 1;
+}
+.sidebar .top .logo span{
+  padding-left: 20px;
+  font-size: 20px;
+}
+
+.bold{
+  font-weight: 600;
+}
+.sidebar p{
+  opacity: 0;
+}
+.sidebar.active p{
+  opacity: 1;
+}
+.sidebar ul li{
+  position: relative;
+  list-style-type: none ;
+  height: 50px;
+  width: 90%;
+  margin: 0.8rem auto;
+  line-height: 50px;
+}
+.sidebar ul{
+    margin-top: 80px;
+  }
+.sidebar ul li a{
+  color: #fff;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  border-radius: 0.8rem;
+}
+.sidebar ul li a:hover{
+  background-color: #fff;
+  color: var(--secondary-color);
+}
+.sidebar ul li a i{
+  min-width: 50px;
+  text-align: center;
+  /* height: 50px; */
+  border-radius: 12px;
+  line-height: 50px;
+}
+.sidebar ul li a i:hover{
+  min-width: 50px;
+  background-color: white;
+  text-align: center;
+  height: 50px;
+  border-radius: 12px;
+  line-height: 50px;
+}
+.sidebar .nav-item{
+  opacity:0;
+  display: none;
+
+}
+.sidebar.active .nav-item{
+  display: block;
+  opacity:1;
+}
+
+.sidebar ul li .tooltip{
+  position: absolute;
+  left: 125px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0.5rem 0.8rem rgba(0,0,0,0.2);
+  border-radius: .6rem;
+  padding: .4rem 1.2rem;
+  line-height: 1.8 rem;
+  z-index: 20;
+  opacity: 0;
+  width: 140px;
+}
+
+.sidebar ul li:hover .tooltip{
+  opacity: 1;
+}
+.sidebar.active ul li .tooltip{
+  display: none;
+}
+.main-content{
+  position: relative;
+  min-height: 100vh;
+  top:0;
+  left: 80px;
+  transition: all 0.5s ease;
+  width: calc(100% -80px);
+  padding: 1rem;
+}
+    </style>
+
+<body>
+   
+<div class="sidebar">
+    <div class="top">
+        <i class="fa-solid fa-bars" id="btn"></i> 
+    </div>
+   
+    <ul>
+        <li>
+            <a href="farmerDashboard.html">
+                <i class="fa-solid fa-table-cells-large"></i>
+                <span class="nav-item">My Farms</span>
+            </a>
+            <span class="tooltip">My Farms</span>
+        </li>
+         <li>
+            <a href="#">
+                <i class="fa-regular fa-calendar"></i>
+                <span class="nav-item">Schedule</span>
+            </a>
+            <span class="tooltip">Schedule</span>
+        </li>
+        <li>
+            <a href="tasks.html">
+                <i class="fa-solid fa-list-check"></i>
+                <span class="nav-item">Chats</span>
+            </a>
+            <span class="tooltip">Chats</span>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="fa-solid fa-seedling"></i>
+                <span class="nav-item">Crops</span>
+            </a>
+            <span class="tooltip">Crops</span>
+        </li>
+        <li>
+            <a href="#">
+                <i class="fa-solid fa-file"></i>
+                <span class="nav-item">Map</span>
+            </a>
+            <span class="tooltip">Map</span>
+        </li>
+        <li>
+            <a href="invite.html">
+                <i class="fa-solid fa-user-plus"></i>
+                 <span class="nav-item">Invite</span>
+            </a>
+            <span class="tooltip">Invite</span>
+        </li>
+        <li>
+            <a href="#">
+                <i class="fa-solid fa-tractor"></i>
+                 <span class="nav-item">Add Farm</span>
+            </a>
+            <span class="tooltip">Add Farm</span>
+        </li>
+        <li>
+            <a href="#">
+                <i class="fa-solid fa-file"></i>
+                <span class="nav-item">Market Prices</span>
+            </a>
+            <span class="tooltip">Market Prices</span>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

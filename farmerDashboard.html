@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="html">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Atlassian+Sans&display=swap" rel="stylesheet"> -->
+  <link rel="stylesheet" href="css/farmerDashboard.css">
+  <!-- <link rel="stylesheet" href="header.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+  <!-- java driver for user guide highlight -->
+  <script src="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.js.iife.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.css"/>
+
+</head>
+
+<body> 
+        <div class="sidebar">
+            
+            <div class="top">
+                <i class="fa-solid fa-bars" id="btn"></i> 
+            </div>
+            <div class="user-profile">
+                <img src="media/userimg.jpg" alt="User Image" class="user-img">
+                <div class="user-info">
+                    <span class="username" id="username"><br></span>
+                    <span class="user-role">Farmer</span>
+                </div>
+            </div>
+
+            <ul>
+                <li id="icon1">
+                    <a href="farmerDashboard.html">
+                        <i class="fa-solid fa-table-cells-large" ></i>
+                        <span class="nav-item"  data-key="myFarms">My Farms</span>
+                    </a>
+                    <!-- <span class="tooltip" data-key="myFarms">My Farms</span> -->
+                </li>
+                 <li id="icon2">
+                    <a href="schedule.html">
+                        <i class="fa-regular fa-calendar" ></i>
+                        <span class="nav-item" data-key="Schedule">Schedule</span>
+                    </a>
+                    <!-- <span class="tooltip" data-key="Schedule">Schedule</span> -->
+                </li>
+                  <li id="icon3">
+                    <a href="tasks.html">
+                      <i class="fa-solid fa-list-check"></i>
+                      <span class="nav-item" data-key="Tasks">Tasks</span>
+                    </a>
+                    <!-- <span class="tooltip" data-key="Tasks">Tasks</span> -->
+                </li>
+                <li id="icon4">
+                     <a href="chat.html">
+                      <i class="fa-solid fa-comment" ></i>
+                       <span class="nav-item" data-key="Chats">Chats</span>
+                    </a>
+                    <!-- <span class="tooltip" data-key="Chats">Chats</span> -->
+                </li>
+
+                <li id="icon5">
+                    <a href="crops.html">
+                        <i class="fa-solid fa-seedling"></i>
+                        <span class="nav-item" data-key="Crops">Crops</span>
+                    </a>
+                    <!-- <span class="tooltip" data-key="Crops">Crops</span> -->
+                </li>
+                <li id="icon6">
+                    <a href="invite.html">
+                        <i class="fa-solid fa-user-plus" ></i>
+                         <span class="nav-item" data-key="Invite">Invite</span>
+                    </a>
+                    <!-- <span class="tooltip" data-key="Invite">Invite</span> -->
+                </li>
+                <li id="icon7">
+                    <a href="addFarm.html">
+                        <i class="fa-solid fa-tractor" ></i>
+                         <span class="nav-item" data-key="Add-Farm">Add Farm</span>
+                    </a>
+                    <!-- <span class="tooltip" data-key="Add-Farm">Add Farm</span> -->
+                </li>
+                <!-- <li>
+                    <a href="#">
+                      <i class="fa-solid fa-money-bill-trend-up" id="icon8"></i>
+                       <span class="nav-item" data-key="marketPrices">Market Prices</span>
+                    </a>
+                    <span class="tooltip" data-key="marketPrices">Market Prices</span>
+                </li> -->
+<!--                 
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-file"></i>
+                        <span class="nav-item">Reports</span>
+                    </a>
+                    <span class="tooltip">Reports</span>
+                </li> -->
+            </ul>
+        </div>
+        
+        <div class="main-content">
+            
+            <!-- <div class="container"> -->
+                <!-- <h1>Zira'atna</h1> -->
+                <div class="header">
+                       <div class="search-box">
+                          <i class="fa fa-search"></i>
+                          <input data-key="searchBar" type="text" placeholder="Search crops, plants, farm" />
+                      </div>
+
+                      <div class="lang-toggle" id="lang-toggle">
+                        <span class="lang active" id="en">EN</span>
+                        <span class="lang" id="ar">ع</span>
+                      </div>
+
+                      <i class="help-btn fa-solid fa-circle-info" id="help" ></i>
+                      <i class="fa-solid fa-moon" style="margin-inline-start: 26px; font-size: 20px;   transition: all 0.5s;" id="icon"></i>
+                      <i class="fa-solid fa-bell" id="alert"></i>
+                      <i class="fa-solid fa-gear" id="settings" style="margin-inline-start: 90px;"></i>
+                  </div>
+
+                  <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+            <div class="greeting" id="greetingMessage"></div>
+            <div id="greetingUsername" style="color: rgb(89, 89, 89); font-family: 'Pacifico', cursive; font-size: 19px; "> </div>
+          </div>
+          
+            <div class="my-farms" id="farms-container" ></div>
+            <template id="farm-card-template">
+                <a href="#" class="farm-card-link">
+                <div class="my-farm-item farm-card">
+                    <h5 class="farm-name" id="farm-name"></h5>
+                    <!-- <h5 class="farm-temp"><i>36 °C | Partly Cloudy</i></h5> -->
+                    <img src="media\Picture1.png" class="farm-img" >
+                  <div style="display: flex;">
+                    <i class="fa-solid fa-location-dot" style="margin-inline-end: 4px; margin-inline-start: 10px;"></i><h5 class="farm-location" style="margin-inline-start: 10px;"></h5>
+                  </div>
+                    <!-- <h5 class="farm-fields">3 Greenhouses | 5 Fields</h5> -->
+                    <!-- <h5 class="farm-size">10 hectares</h5> -->
+
+                    <div class="AI" style="margin-inline-start: 2px; margin-top:10px; display: flex; gap: 6px;">
+                      <div  style=" margin-left: 2px; letter-spacing: 1px; font-size: 13px; padding: 10px; background-color: #e3e5a24e; border-radius: 6px; padding-bottom: 20px; padding-right: 28px;">
+                        <span data-key="totalArea"></span><i class="fa-solid fa-expand" style="margin-inline-start: 30px;"></i>
+                        <br><br>
+                          <div style="display: flex;">
+                            <span id="areaSpan" class="areaSpan" style="font-size: 14px; font-weight: 550; color: rgb(143, 131, 65);"></span>
+                            <p data-key="unit" style="font-size: 14px; font-weight: 550; color: rgb(143, 131, 65);"></p>
+                          </div>
+                    </div>
+                      <div style="  letter-spacing: 1px; font-size: 13px; padding: 10px; background-color: #b4e28f4e; border-radius: 6px; padding-bottom: 20px; padding-right: 28px;">
+                        <span data-key="irrigation"></span><i class="fa-solid fa-droplet" style="margin-inline-start: 30px;"></i>
+                        <br><br><span id="irrigationSpan" style="font-size: 14px; font-weight: 550; color: #668150; "></span>
+                      </div>
+                    </div>
+                    <div class="cropType" style="margin-top: 14px;">
+                      <p data-key="cropTypeP">Crop Type</p>
+
+                    </div>
+                    <div class="soilType" style="margin-top: 10px;">
+                      <p data-key="soilTypeP">Soil Type</p>
+                    </div>
+                    <hr width="300px" style="border:1px solid #e3e5a24e; margin-top:15px; margin-inline-start: 5px;">
+                    <!-- <div ></div> -->
+                    <div style="display: flex; border: 1px solid #dfdfdf; border-radius: 8px; 
+                                padding: 8px; font-size: 13px; width: 300px; margin-inline-start: 5px; 
+                                margin-top: 15px; align-items: center;
+                                ">
+                    <i  class="fa-solid fa-eye" style="margin-inline-start: 5px; margin-inline-end: 10px;"></i>
+                    <div data-key="viewDetails">View Details</div>
+                    <i class="fa-solid fa-arrow-right" style="margin-inline-start: 150px;"></i>
+                  </div>
+                </a>
+               
+            <!-- </div> -->
+          </template>
+            </div>           
+            <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+            <script src="js/supabase.js"></script>
+            <script src="js/translation.js"></script>
+
+            <script src="js/farmerDashboard.js"></script>
+</body>
+
+<script>
+  (function(){
+    if(!window.chatbase||window.chatbase("getState")!=="initialized"){
+      window.chatbase=(...arguments)=>{
+        if(!window.chatbase.q){
+          window.chatbase.q=[]
+        }
+        window.chatbase.q.push(arguments)
+      };
+   window.chatbase=new Proxy(window.chatbase,{get(target,prop){
+    if(prop==="q"){
+      return target.q
+    }
+   return(...args)=>target(prop,...args)
+  }})
+}
+const onLoad=function(){
+  const script=document.createElement("script");
+  script.src="https://www.chatbase.co/embed.min.js";
+  script.id="CweL1LEsA0QNqqFZhJzRZ";
+  script.domain="www.chatbase.co";
+  document.body.appendChild(script)
+};
+if(document.readyState==="complete"){
+  onLoad()
+}
+else{window.addEventListener("load",onLoad)}})();
+  </script>
+<!-- <script src="js/lang.js"></script> -->
+
+
+</html>

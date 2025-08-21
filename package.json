@@ -1,0 +1,28 @@
+{
+  "name": "farming-app",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "webpack.config.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.52.1",
+    "@terraformer/wkt": "^2.2.1",
+    "axios": "^1.11.0",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "fullcalendar": "^6.1.18",
+    "node-fetch": "^2.7.0",
+    "openai": "^5.13.1",
+    "openmeteo": "^1.2.0",
+    "terraformer-wkt-parser": "^1.2.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

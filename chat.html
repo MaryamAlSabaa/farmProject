@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="html">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chat</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://fonts.googleapis.com/css2?family=Atlassian+Sans&display=swap" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="css/farmerDashboard.css"> -->
+  <link rel="stylesheet" href="css/chat.css">
+  <link rel="stylesheet" href="css/farmerDashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body> 
+  <div class="sidebar-container"></div>
+    <!-- <div class="page-wrapper"></div> -->
+    <div class="header">
+      <div class="search-box">
+         <i class="fa fa-search"></i>
+         <input type="text" placeholder="Search crops, plants, farm" />
+     </div>
+
+     <div class="lang-toggle" id="lang-toggle">
+       <span class="lang active" id="en">EN</span>
+       <span class="lang" id="ar">ع</span>
+     </div>
+
+     <i class="help-btn fa-solid fa-circle-info" id="help" ></i>
+     <i class="fa-solid fa-moon" style="margin-inline-start: 26px; font-size: 20px;   transition: all 0.5s;" id="icon"></i>
+     <i class="fa-solid fa-bell" id="alert"></i>
+     <i class="fa-solid fa-gear" id="settings" style="margin-inline-start: 90px;"></i>
+    </div>
+    <div class="main"  style="margin-inline-start: 80px;">
+        <div class="chat-wrapper" style="margin-top: 65px;">
+          <!-- Chat List -->
+          <div class="chat-list">
+            <div class="chat-search">
+              <input type="text" placeholder="Search..." />
+            </div>
+            <ul>
+              <li class="active">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="">
+                <div>
+                  <h4>Joe Martin</h4>
+                  <p>You're welcome!</p>
+                </div>
+                <span>7:10 pm</span>
+              </li>
+              <li>
+                <img src="https://randomuser.me/api/portraits/men/52.jpg" alt="">
+                <div>
+                  <h4>Peterson</h4>
+                  <p>Delivered</p>
+                </div>
+                <span>7:01 pm</span>
+              </li>
+              <li>
+                <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="">
+                <div>
+                  <h4>Shaleena</h4>
+                  <p>okay done!</p>
+                </div>
+                <span>6:05 pm</span>
+              </li>
+            </ul>
+          </div>
+  
+          <!-- Chat Box -->
+          <div class="chat-box">
+            <div class="chat-header">
+              <div>
+                <h4>Joe Martin</h4>
+                <span>Active now</span>
+              </div>
+              <div class="chat-actions">
+                <i class="fa-solid fa-phone"></i>
+                <i class="fa-solid fa-video"></i>
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+              </div>
+            </div>
+  
+            <div class="chat-body">
+              <div class="msg received">Hi, I just received my access code but it seems like it is not working.</div>
+              <div class="msg sent">Oh no, we’re sorry about that! Can you please let us know your access code so we can fix it right?</div>
+              <div class="msg received">....</div>
+              <div class="msg sent">Apologies for the inconvenience. Problem is fixed now !!</div>
+              <div class="msg received">Thank you for your quick response!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <script src="js/chats.js"></script> -->
+
+        <script src="js/farmerDashboard.js"></script>
+        <script src="js/importHeaderBar.js"></script>
+</body>
+
+</html>

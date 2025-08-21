@@ -1,0 +1,339 @@
+@font-face {
+    font-family: 'SpotifyMixUITitle';
+    src: url('SpotifyMix-Regular.ttf') format('truetype'); 
+    
+  }
+*{
+   
+    font-family: 'SpotifyMixUITitle', sans-serif;
+  }
+
+body {
+    background-color: #0d1423;
+    margin: 0;
+    padding: 0;
+}
+.headerTitle{
+  /* margin: ; */
+  /* height: 4%; */
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+#backToDetails {
+  position: absolute;
+  left: 20px;
+  font-size: 18px;
+  color: white;
+  z-index: 20000;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+#backToDetails:hover{
+  transform: scale(1.1);
+}
+.marquee-container{
+    display: flex;
+    /* top: -20px; */
+    /* left: 12px; */
+    /* height: 13%; */
+    background: rgba(40, 54, 57, 0.491); 
+    backdrop-filter: blur(6px); 
+    box-shadow: 0 8px 24px rgba(107, 118, 205, 0.342);
+    border-radius: 3px;
+    border: none;
+    padding-inline: 40px 10px; 
+    padding-top: 10px;
+    padding-bottom:13px;
+    transition: .4s;
+    color: rgb(252, 252, 252);
+    letter-spacing: 13px;
+    z-index: 10000;
+    width:  100%;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+.marquee-container:focus {
+    outline: none;
+}
+.marquee-container:hover{
+    box-shadow: 0 .1rem .1rem #30605bb7;
+    background-color: transparent;
+}
+.marquee-wrapper {
+  width: 950px; /* Or 400px, 600px — your choice */
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+  margin-left: 10%;
+}
+.marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marqueeScroll 25s linear infinite;
+}
+
+.marquee span {
+  display: inline-block;
+  /* padding-right: 2rem;  */
+  /* margin-left: ; */
+}
+
+@keyframes marqueeScroll {
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+
+.head-title i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgb(40, 54, 57);
+    z-index: 2;
+    pointer-events: none; 
+}
+
+#map{
+    position: absolute;
+    top: 10px;
+    bottom: 0;
+    left:0;
+    right: 0;
+    z-index: 100;
+    height: 93%;
+    margin-top: 36px;
+    
+}
+.leaflet-top{
+    margin-top: 60px !important;
+}
+.leaflet-control-zoom a {
+    background-color: transparent !important; 
+    backdrop-filter: blur(4px); 
+    color: rgb(40, 54, 57) !important;              
+    border: none !important;
+}
+.leaflet-control-zoom a:hover {
+    background-color: rgba(40, 54, 57, 0.8) !important;
+    color: #ffffff !important; 
+    backdrop-filter: blur(6px); 
+}
+.js-startprompt.tasks{
+  /* color: black; */
+}
+.js-measuretasks li a{
+  /* color: red; */
+}
+.leaflet-control-layers{
+    background-color: transparent !important; 
+    backdrop-filter: blur(6px); 
+    color: #fff !important;    
+}
+.leaflet-control-measure{
+  background-color: transparent !important; 
+    backdrop-filter: blur(6px); 
+    color: #fff !important; 
+}
+.leaflet-control-measure-toggle.js-toggle{
+  padding: 7px !important;
+  color: white;
+  border: none;
+  background-color: transparent;
+  font-size: 100px;
+ }
+ .leaflet-control-measure .leaflet-control-measure-toggle {
+     background-size:14px 14px;
+     /* background-image:url(assets\pencil-solid.svg); */
+     /* ... */
+ }
+ .leaflet-retina .leaflet-control-measure .leaflet-control-measure-toggle {
+  /* background-image:url(assets\pencil-solid.svg); */
+}
+.leaflet-control-layers:hover {
+    background-color: rgba(40, 54, 57, 0.8) !important;
+    color: #ffffff !important; 
+    backdrop-filter: blur(6px); 
+}
+.leaflet-draw.leaflet-control{
+  margin-top: 17px !important;      
+
+}
+.leaflet-draw-toolbar a{
+    background-color: transparent !important; 
+    backdrop-filter: blur(6px); 
+    color: #fff !important;      
+}
+.leaflet-draw-toolbar a:hover {
+    background-color: rgba(40, 54, 57, 0.8) !important;
+    backdrop-filter: blur(6px); 
+    color: #ffffff !important; 
+
+}
+
+.leaflet-control-geocoder {
+    background-color: transparent !important;
+    backdrop-filter: blur(6px);
+    border: solid rgba(0, 0, 0, 0.192) !important;
+    border-radius: 4px !important;
+    box-shadow: 0 8px 24px rgba(107, 118, 205, 0.342) !important;
+}
+.leaflet-control-geocoder-form button {
+    background-color: transparent !important;
+    color: rgb(40, 54, 57) !important;
+    border: none !important;
+}
+.leaflet-control-geocoder-icon {
+    background-color: transparent !important;
+    filter: brightness(0) invert(1) !important;
+    padding: 21.5px;
+}
+.leaflet-control-geocoder-form button:hover .leaflet-control-geocoder-icon {
+    filter: brightness(0) invert(1) !important; 
+}
+.leaflet-control-geocoder-form input {
+    background-color: rgba(40, 54, 57, 0.721) !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 3px !important;
+    padding: 21.5px !important;
+    font-size: 14px !important;
+}
+
+.leaflet-control-geocoder-form input:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2) !important;
+}
+
+.leaflet-control-geocoder-form input::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+.leaflet-control-geocoder-alternatives {
+    background-color: rgba(40, 54, 57, 0.9) !important;
+    backdrop-filter: blur(6px);
+    border: solid rgba(0, 0, 0, 0.192) !important;
+    border-radius: 4px !important;
+    box-shadow: 0 8px 24px rgba(107, 118, 205, 0.342) !important;
+}
+
+.leaflet-control-geocoder-alternatives a {
+    color: #ffffff !important;
+    padding: 8px 12px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.leaflet-control-geocoder-alternatives a:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+.leaflet-popup-content-wrapper {
+    background-color: rgba(40, 54, 57, 0.721) !important;
+    backdrop-filter: blur(6px); 
+    box-shadow: 0 8px 24px rgba(107, 118, 205, 0.342);
+    border-radius: 3px;
+    border: none;
+    margin: 0;
+    padding: 0;
+    padding-top: 10px;
+
+  }
+  .leaflet-popup .leaflet-popup-close-button {
+    top: 10px !important;
+    transform: translate(-50%, 0) !important;
+    color: rgba(40, 54, 57, 0.804) !important;
+    /* background: transparent !important; */
+    /* border: none !important; */
+    font-size: 22px !important;
+    /* width: auto !important; */
+    /* height: auto !important; */
+    /* line-height: 1 !important; */
+    /* box-shadow: none !important; */
+    /* z-index: 10 !important; */
+  }
+  .leaflet-control-locate{
+    margin-top: 12px !important;
+
+  }
+  .leaflet-bar-part.leaflet-bar-part-single{
+    background: rgba(255, 255, 255, 0.1);
+  }
+  .leaflet-control-locate.leaflet-bar.leaflet-control a:hover{
+    background: rgba(40, 54, 57, 0.8) !important;
+  }
+  .luxury-popup {
+    display: inline-block;
+    /* min-width: unset; */
+    /* max-width: 90vw;  */
+    width: fit-content;
+    padding-inline: 11px;
+    padding-bottom: 13px;
+    /* box-sizing: border-box; */
+  }
+  
+  .luxury-popup h3,   .luxury-popup h4{
+    /* margin: 10px ; */
+    font-size: 16px;
+    color: rgb(205, 205, 205);
+    letter-spacing: 1.8px;
+  }
+.luxury-popup button{
+  /* display: block; */
+  background: rgba(40, 54, 57, 0.804) ;    
+  backdrop-filter: blur(6px); 
+  margin-top: 10px;
+  border: none; 
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 4px;
+  transition: all 0.5s;
+  /* display: inline-block; */
+  width: 100%;
+  color: rgb(205, 205, 205);
+}
+.luxury-popup button:hover{
+  background: rgba(40, 54, 57, 0.475) ; 
+  cursor: pointer;
+  transform: scale(1.03);
+}
+ #skip-btn, #building-btn {
+    background-color: rgba(40, 54, 57, 0.804) !important;
+    border: none;
+    backdrop-filter: blur(6px); 
+    /* padding: 8px 12px; */
+    border-radius: 3px;
+    color: rgb(205, 205, 205);
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+
+  .leaflet-popup-tip {
+    background-color: rgba(40, 54, 57, 0.721) !important;
+    backdrop-filter: blur(6px);
+ }
+  .popup-coords {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #ffffff;
+    margin-bottom: 7px;
+  }
+  .btn-group{
+    display: flex;
+    gap: 9px;
+}
+ .btn-group button{
+    width: 100%;
+    background-color: transparent !important;
+    border: .5px solid rgba(40, 54, 57, 0.721);
+    border-radius: 6px;  
+    padding: 6px;
+    transition: 0.5s;
+    color: white;
+    cursor: pointer;
+ }
+ .btn-group button:hover{
+    transform: scale(1.07); 
+ }
+

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="html">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title></title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Atlassian+Sans&display=swap" rel="stylesheet"> -->
+  <link rel="stylesheet" href="css/tasks.css"> 
+  <link rel="stylesheet" href="css/farmerDashboard.css"> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+
+  <!-- <link rel="stylesheet" href="sidebar.css">  -->
+
+</head>
+<!-- 
+  task ID || Assignee || Due Date || Priority  || Status || Farm || Task description
+-->
+<body> 
+  <div class="page-cont">
+  <div class="sidebar-container"></div>
+
+  <div class="header">
+    <div class="search-box">
+      <i class="fa fa-search"></i>
+      <input type="text" placeholder="Search crops, plants, farm" />
+    </div>
+    <div class="lang-toggle" id="lang-toggle">
+      <span class="lang active" id="en">EN</span>
+      <span class="lang" id="ar">ع</span>
+    </div>
+    <i class="help-btn fa-solid fa-circle-info" id="help"></i>
+    <i class="fa-solid fa-moon" style="margin-inline-start: 26px; font-size: 20px;   transition: all 0.5s;" id="icon"></i>
+    <i class="fa-solid fa-bell" id="alert"></i>
+    <i class="fa-solid fa-gear" id="settings" style="margin-inline-start: 90px;"></i>
+  </div>
+
+  <div class="page-wrapper"></div>
+  <h2 style="padding-top: 50px; margin-inline-start: 96px;" data-key="tasksPageTitle">Tasks Overview</h2>
+  
+    <!-- <h1>Tasks</h1> -->
+    <div class="page-body" style="margin-inline-start: 80px;">
+            <div class="top-bar">
+          <div class="input-group">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="search" placeholder="Search Data..." data-key="searchData" data-content-type="text">
+          </div>
+          <div class="right-buttons">
+            <nav class="navbar">
+              <ul class="nav-links">
+               <li class="nav-link month">
+                  <button data-key="allTasks">All Tasks
+                    <i class="fa-solid fa-angle-down"></i>
+                  </button> 
+                  <ul class="drop-down">
+                    <li data-key="allTasks">All Tasks</li>
+                    <li data-key="thisMonth">This Month</li>
+                    <li data-key="lastMonth">Last Month</li>
+                    <li data-key="nextMonth">Next Month</li>
+                  </ul>
+               </li>
+            <li class="nav-link">
+                  <button onclick=exportTableToExcel()>
+                    <i class="fa-solid fa-download"></i><span data-key="export">Export</span>
+                  </button>
+            </li>
+            <li class="nav-link">
+              <button class="newtask" id="addTaskBtn" dir="ltr" style="direction: ltr !important;"><i class="fa-solid fa-plus"></i><span data-key="addNewTasks">Add New Tasks</span></button>
+          <div id="modalOverlay" class="modal-overlay hidden">
+            <div class="modal-content">
+              <h2 data-key="assignNewTask">Assign New Task</h2>
+              
+              <form id="taskForm">
+                <label for="worker" data-key="selectWorker">Select Worker:</label>
+                <select id="worker" required>
+                </select>
+          
+                <label for="description" data-key="taskDescription">Task Description:</label>
+                <textarea id="description" rows="3" required></textarea>
+          
+                <div class="dates">
+                  <div>
+                    <label for="startDate" data-key="startDate">Start Date:</label>
+                    <input type="date" id="startDate" required />
+                  </div>
+                  <div>
+                    <label for="endDate" data-key="dueDate"></label>
+                    <input type="date" id="endDate" required />
+                  </div>
+                </div>
+          
+                <label for="priority" data-key="priority">Priority:</label>
+                <select id="priority" required>
+                  <option value="" data-key="choosePriority">-- Choose task priority --</option>
+                  <option value="low" data-key="Low"></option>
+                  <option value="medium" data-key="Medium"></option>
+                  <option value="High" data-key="High"></option>
+                  <option value="Urgent" data-key="Urgent"></option>
+                </select>
+                <label for="farm" data-key="farm">Farm:</label>
+                <select id="farm" required>
+                  <!-- <option value="">-- Select a farm --</option> -->
+                </select>
+
+                <label for="structure" data-key="structure">Structure:</label>
+                <select id="structure" >
+                  <!-- <option value="">-- Select greenhouse --</option> -->
+                  <!-- <option value="Greenhouse-A">Greenhouse A</option> -->
+                </select>
+               
+                <div class="modal-actions">
+                  <button type="submit" class="submit-btn" data-key="assignTask">Assign Task</button>
+                  <button type="button" id="cancelBtn" class="cancel-btn" data-key="cancel">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    </div>
+    </div>
+    <main class="table" id="workers_table" dir="ltr" style="direction: ltr !important;"> 
+    <section class="table-body">
+      <table>
+        <thead>
+          <tr>
+            <!-- <th> Task Id <span class="icon-arrow">&UpArrow;</span></th> -->
+            <th>
+              <span data-key="assignee" class="label"></span>
+              <span class="icon-arrow">&UpArrow;</span>
+            </th>
+            <th>
+              <span data-key="dueDate" class="label"></span>
+              <span class="icon-arrow">&UpArrow;</span>
+            </th>
+            <th>
+              <span data-key="priority" class="label"></span>
+              <span class="icon-arrow">&UpArrow;</span>
+            </th>
+            <th>
+              <span data-key="location" class="label"></span>
+              <span class="icon-arrow">&UpArrow;</span>
+            </th>
+            <th>
+              <span data-key="taskDescription" class="label"></span>
+              <span class="icon-arrow">&UpArrow;</span>
+            </th>
+            <th>
+              <span data-key="status" class="label"></span>
+              <span class="icon-arrow">&UpArrow;</span>
+            </th>
+            <!-- low, medium, high, urgent -->
+            <!-- not started, in progress, completed, delayed, cancelled -->
+        </tr>
+        </thead>
+        <tbody id="tasks-tbody">
+        </tbody>
+      </table>
+    </section>
+  </main>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/farmerDashboard.js"></script>
+<script src="js/importHeaderBar.js"></script>
+<script src="js/translation.js"></script>
+
+<script>
+
+// Get current language function
+function getCurrentLanguage() {
+  return localStorage.getItem("language") || "en";
+}
+
+function filterTasks(filter, tasks){
+  const today = new Date();
+  console.log(tasks);
+
+  tasks.forEach(task => {
+    const dueDate = new Date(task.due_date);
+    console.log(dueDate);
+
+    let show = false;
+    if (filter === getTranslation("allTasks")) { show = true; } 
+    else if (filter === getTranslation("thisMonth")) {
+      show = dueDate.getMonth() === today.getMonth() && 
+             dueDate.getFullYear() === today.getFullYear();
+    } 
+    else if (filter === getTranslation("lastMonth")) {
+      const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+      show = dueDate.getMonth() === lastMonth.getMonth() && 
+             dueDate.getFullYear() === lastMonth.getFullYear();
+    } 
+    else if (filter === getTranslation("nextMonth")) {
+      const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+      show = dueDate.getMonth() === nextMonth.getMonth() && 
+             dueDate.getFullYear() === nextMonth.getFullYear();
+    }
+    task.style.display = show ? "table-row" : "none";
+  });
+}
+let user_id;
+const taskForm = document.getElementById('taskForm');
+
+let selectedStructId, selectedTechnicianId, selectedFarmId;
+const submitBtn = document.querySelector(".submit-btn");
+const today = new Date()
+const year = today.getFullYear();
+const month = String(today.getMonth()+1).padStart(2, '0');
+const day= String(today.getDate()).padStart(2, '0');
+const localToday = `${year}-${month}-${day}`;
+document.getElementById("startDate").setAttribute("min", localToday);
+document.getElementById("endDate").setAttribute("min", localToday);
+
+// for adding new tasks, view technicians names
+const workerSelect = document.getElementById("worker");
+workerSelect.innerHTML = '<option value="">-- Choose a worker --</option>';
+const farmSelect = document.getElementById("farm");
+farmSelect.innerHTML = '<option value="">-- Choose a farm --</option>';
+const structSelect = document.getElementById("structure");
+structSelect.innerHTML = '<option value="">-- Choose a structure --</option>';
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadUserTasksTechs();
+  // await viewTechs();
+});
+async function loadUserTasksTechs(){
+const { data: { user }, error: authError } = await supa.auth.getUser();
+  if (authError) {
+    console.error("Error fetching user:", authError);
+    return;
+  }
+  user_id = user.id;
+// console.log(user_id);
+
+const { data: techs, error: techError} = await supa
+  .from("invitations")
+  .select(`status, assignee: users(Username, user_id)`)
+  .eq("inviter_id", user_id)
+  .eq("status", "active");
+  console.log(techs);
+  if (techError) { console.log("tech error: ", techError)}
+  techs.forEach(tech => {
+    const option = document.createElement("option");
+    option.value = tech.assignee.user_id;
+    option.textContent  = tech.assignee?.Username ?? "Unknown";
+    workerSelect.appendChild(option);
+    console.log(option);
+  });
+  workerSelect.addEventListener("change", async () => {
+    selectedTechnicianId = workerSelect.value;});
+
+  const   { data: tasks , error} = await supa
+     .from('tasks')
+     .select(`due_date,
+              priority,status,description,
+              farm:Farms(Farm_name, User_id),
+              assignee: users(Username),
+              structure:FarmStructures(structure_name)
+      `)
+      .eq("Farms.User_id", user_id)
+    if (error) throw error;
+   
+    // console.log(data);
+   
+    // adding farms and structures
+    const {data: farmData, error: farmError} = await supa
+    .from("Farms")
+    .select(`Farm_name, User_id, farm_id`)
+    .eq("User_id",user_id)
+    
+    farmData.forEach(f => {
+        const FarmOption = document.createElement("option");
+        FarmOption.value = f.farm_id;
+        FarmOption.textContent  = f.Farm_name;
+        farmSelect.appendChild(FarmOption);
+        // console.log(FarmOption);
+      });
+  const structureSelect = document.getElementById("structure");
+  farmSelect.addEventListener("change", async () => {
+    selectedFarmId = farmSelect.value;
+    structureSelect.innerHTML = '<option value="">-- Choose a structure --</option>';
+  
+    const { data: structures, error } = await supa
+    .from("FarmStructures")
+    .select("structure_id, structure_name, structure_type")
+    .eq("farm_id", selectedFarmId);
+
+    structures.forEach(s => {
+    const structOption = document.createElement("option");
+    structOption.value = s.structure_id;
+    structOption.textContent = s.structure_name;
+    structOption.dataset.type = s.structure_type; 
+    structureSelect.appendChild(structOption);
+  });
+  structureSelect.addEventListener("change", async () => {
+   selectedStructId = structureSelect.value; });
+  });
+  taskForm.addEventListener('submit', async (e) => {
+    // e.preventDefault(); 
+    const description= document.getElementById('description').value;
+    const startDate= document.getElementById('startDate').value;
+    const endDate= document.getElementById('endDate').value;
+    const priority= document.getElementById('priority').value;
+
+    console.log("farm: ", selectedFarmId);
+    console.log("structure: ",selectedStructId);
+
+  const { data: inserTasks , error} = await supa
+    .from('tasks')
+    .insert([
+      { 
+        farm_id: selectedFarmId,
+        assignee : selectedTechnicianId ,
+        start_date: startDate ,
+        due_date: endDate,
+        priority: priority,
+        description:  description,
+        structure_id:selectedStructId 
+         }
+    ])
+    .select(`*`);
+        })
+  const tbody = document.getElementById('tasks-tbody');
+  tbody.innerHTML = "";
+
+  if (!tasks.length) {
+    const tr = document.createElement('tr');
+    tr.classList.add("task"); 
+    tr.innerHTML = `<td colspan="7" style="text-align:center; opacity:.7;">No tasks yet</td>`;
+    tbody.appendChild(tr);
+    return;
+  }
+  for (const task of tasks) {
+    const tr = document.createElement('tr');
+    tr.dataset.dueDate = task.due_date; 
+    const assigneeName = task.assignee.Username ?? "—";
+    const priority = task.priority ?? "—";
+    const priorityHTML = `<p class="priority ${priorityClass(priority)}" data-key=${priorityClass(priority)}>${priority} </p>`;
+    const taskTitle = task.description;
+    const farm = task.farm.Farm_name;
+    const structure = task.structure.structure_name;
+    const dueDate = formatDate(task.due_date);
+    const status = task.status ?? "—";
+    const statusHTML = `<span><li class="status ${statusClass(status)}" data-key=${statusClass(status)}>${status}</li></span>`;
+
+    tr.innerHTML = `
+      <td>${assigneeName}</td>
+      <td>${dueDate}</td>
+      <td>${priorityHTML}</td>
+      <td>${farm} , ${structure}</td>
+      <td>${taskTitle}</td>
+      <td>${statusHTML}</td>
+    `;
+    tbody.appendChild(tr);
+  }
+  
+  // Translate any newly added content after loading tasks
+  if (window.translationUtils) {
+    window.translationUtils.translateDynamicContent(getCurrentLanguage());
+  }
+  
+  // Update table_rows reference after loading tasks
+  table_rows = document.querySelectorAll('tbody tr');
+    // filtering tasks by due date
+  document.querySelectorAll(".drop-down li").forEach(option => {
+    option.addEventListener("click", () => {
+      const filter = option.textContent.trim();
+      // console.log(filter);
+      filterTasks(filter, tasks);
+    });
+  });
+};
+function statusClass(status) {
+  switch (status.toLowerCase()) { 
+    case "delayed": return "delayed";
+    case "cancelled": return "cancelled";
+    case "not started": return "notStarted";
+    case "completed": return "completed";
+    case "in progress": return "inProgress";
+    default: return "";
+  }
+}
+function priorityClass(priority) { 
+  switch (priority.toLowerCase()) { 
+    case "low": return "low";
+    case "medium": return "medium";
+    case "high": return "high";
+    case "urgent": return "urgent";
+    default: return "";
+  }
+}
+
+
+function formatDate(d) {
+  if (!d) return "-";
+  const date = new Date(d);
+  return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: '2-digit' });
+}
+function setModalBlur(active) {
+  if (active) {
+    document.body.classList.add('modal-blur');
+  } else {
+    document.body.classList.remove('modal-blur');
+  }
+}
+const addTaskBtn = document.getElementById('addTaskBtn');
+const modalOverlay = document.getElementById('modalOverlay');
+const cancelBtn = document.getElementById('cancelBtn');
+addTaskBtn.addEventListener('click', () => {
+  modalOverlay.classList.remove('hidden');
+  setModalBlur(true);
+});
+cancelBtn.addEventListener('click', () => {
+  modalOverlay.classList.add('hidden');
+  setModalBlur(false);
+  taskForm.reset();
+});
+
+// search 
+const search = document.querySelector('.input-group input');
+let table_rows = document.querySelectorAll('tbody tr');
+const table_headings = document.querySelectorAll('thead th');
+
+search.addEventListener('input', searchTable);
+
+
+// taskForm.addEventListener('submit', (e) => {
+//   e.preventDefault(); // stops the default behavior (reloading the page)
+
+//   const task = {
+//     worker: document.getElementById('worker').value, //.value gets the selected value
+//     description: document.getElementById('description').value,
+//     startDate: document.getElementById('startDate').value,
+//     endDate: document.getElementById('endDate').value,
+//     priority: document.getElementById('priority').value,
+//     farm: document.getElementById('farm').value,
+//   };
+
+
+//   // the location string: farm + greenhouse
+//   // const farm = task.farm.replace(/-/g, ' '); // .replace(/-/g, ' ') changes dashes to spaces for nicer display
+//   // const greenhouse = task.greenhouse.replace(/-/g, ' '); 
+//   // const location = `${farm}, ${greenhouse}`;
+
+//   const priorityDisplay = task.priority.charAt(0).toUpperCase() + task.priority.slice(1).toLowerCase();
+  
+//   const newRow = document.createElement('tr');
+//   // the following lines fill the row with the right cells and content
+//   newRow.innerHTML = ` 
+//     <td>${'.'}</td>
+//     <td><img src="media/userimg.jpg"> ${task.worker}</td>
+//     <td>${task.endDate}</td>
+//     <td>
+//       <p class="priority ${task.priority.toLowerCase()}">${priorityDisplay}</p>
+//     </td>
+//     <td>${location}</td>
+//     <td>${task.description}</td>
+//     <td>
+//       <li class="status notStarted">Not Started</li>
+//     </td>
+//   `;
+
+//   // now adding the row to the table
+//   const tbody = document.querySelector('#workers_table tbody');
+//   tbody.appendChild(newRow);
+  
+//   modalOverlay.classList.add('hidden'); // hiding the form and clear it for next use
+//   taskForm.reset();
+// });
+
+function searchTable() {
+    table_rows.forEach((row, i) => {
+      let table_data  = row.textContent.toLowerCase(),
+      search_data = search.value.toLowerCase();
+
+      row.classList.toggle('hide' , table_data.indexOf(search_data)<0); // a condition according to the search result, if not match HIDE
+      row.style.setProperty('--delay', i/25 + 's'); //i is the row 
+    })
+  }
+
+  table_headings.forEach((head, i) => {
+    let sort_asc = true;
+    head.onclick = () => {
+      table_headings.forEach(head => head.classList.remove('active'));
+      head.classList.add('active');
+
+      document.querySelectorAll('td').forEach(td=> td.classList.remove('active'))
+      const table_rows = document.querySelectorAll('tbody tr');
+      table_rows.forEach(row => {
+        row.querySelectorAll('td')[i].classList.add('active')
+      })
+
+      head.classList.toggle('asc', sort_asc)
+      sort_asc= head.classList.contains('asc') ? false : true;
+
+      sortTable(i, sort_asc);
+    }
+  })
+
+ function sortTable(column, sort_asc) { // sort_asc: flag that determines whether to sort asc or desc
+  const table_rows = document.querySelectorAll('tbody tr'); // Get the latest rows every time
+  
+  // mapping for priority column, sorting acc to priority not alphabetics
+    const priorityOrder = {
+      "urgent":4,
+      "high": 3,
+      "medium":2 ,
+      "low": 1
+    };
+    
+    [...table_rows].sort((a, b) => {
+      // trim() is to remove any whitespaces from the beginning and end of a string 
+      // we extract the priority text of a cell, look up its value in the mapping 
+      let first_row = a.querySelectorAll('td')[column].textContent.trim().toLowerCase(),
+          second_row = b.querySelectorAll('td')[column].textContent.trim().toLowerCase();
+
+      if (column==3){
+        let first_priority=0, second_priority=0;
+        // first_p, second_p are the <p> elements for the 2 rows (priority cells) being compared
+        const first_p = a.querySelectorAll('td')[column].querySelector('p');
+        const second_p = b.querySelectorAll('td')[column].querySelector('p');
+        if (first_p) first_priority = priorityOrder[first_p.textContent.trim().toLowerCase()] || 0; // here looking up the priorityOrder mapping, to get the key value
+        if (second_p) second_priority = priorityOrder[second_p.textContent.trim().toLowerCase()] || 0;
+         // if sort_asc = true --> asc order, less urgent to more urgent, first_priority - second_priority, so get every pair subtracted, then sort them ascending 
+          // If the result is negative, Row A comes before Row B.
+          // If the result is positive, Row A comes after Row B.
+          // If the result is zero, their order doesn't change.
+          return sort_asc ? (first_priority - second_priority) : (second_priority - first_priority);
+        }
+        return sort_asc ? (first_row < second_row ? 1 : -1) : (first_row < second_row ? -1 : 1);
+    })
+        .map(sorted_row => document.querySelector('tbody').appendChild(sorted_row));
+}
+function exportTableToExcel(){
+  const table = document.getElementById("workers_table");
+  const workbook = XLSX.utils.table_to_book(table, {sheet: "Tasks"});
+
+  const now= new Date();
+  const dayName = now.toLocaleDateString('en-US', {weekday: 'long'});
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const date = String(now.getDate()).padStart(2, '0');
+  const formattedDate = `${year}-${month}-${date}`;
+
+  const fileName = `Tasks-${dayName}-${formattedDate}.xlsx`;
+  XLSX.writeFile(workbook, fileName);
+}
+
+
+</script>
+</html>

@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="html">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registration</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="css/signupStyle.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/css/intlTelInput.css" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async></script>
+</head>
+
+<body>    
+    <div class="topHeader">
+       <a href="index.html" id="home" data-key="home"><span>HOME</span></a> 
+        <i class="fa-solid fa-leaf leaf-icon"></i>
+        <div class="lang-toggle" id="lang-toggle">E | ع</div>
+
+    </div>
+    <div class="container">
+    <!-- Signup Form -->
+    <form class="form signup" id="signupForm">
+      <div class="step step-email" >
+        <h2 id="signup2" data-key="signup2"></h2>
+        <div class="inputbox">
+            <input type="email" id="emailInputS" required="required" placeholder="">
+            <span id="email-span" data-key="email-span">Email Address</span>
+        </div>
+            <p id="emailError" class="emailError" data-key="emailError" style="display: none; width: 100%; justify-content: flex-start; color: red; ">Please enter a valid email address.</p>
+            <p class="phoneNum" style=" width: 100%; display: flex ; justify-content: flex-start;">
+                <a href="#" class="phoneNum" id="phoneNum" data-key="phoneNum" 
+                    style="  text-decoration: none; color: rgb(57, 125, 40) ; font-size: 13px;">Use phone number instead</a>
+            </p>
+        <div class="inputbox">
+            <button type="button" id="createAccount-password" data-key="createAccount-password">Next</button>
+        </div>        
+        
+        <div class="divider" data-key="divider">────────────&nbsp;&nbsp;&nbsp;or&nbsp;&nbsp;&nbsp;────────────</div>
+        <button type="button" class="alt-btn" data-key="alt-btn" style="margin-top: 20px !important; margin-bottom: -20px !important;">Sign up with Access Code</button>
+       
+        <div style="position: relative; display: inline-block;">
+        <button type="button" class="google-btn" data-key="google-btn">Continue with Google</button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" 
+            style=" position: absolute; display: flex; top: 30px; margin-inline-start: 32px; justify-content: flex-start; width: 19px; height: 19px; " >
+            <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
+            <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path>
+            <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path>
+            <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
+        </svg>   
+        </div>
+        <!-- <div
+        id="g_id_onload"
+        data-client_id="<client ID>"
+        data-context="signin"
+        data-ux_mode="popup"
+        data-callback="handleSignInWithGoogle"
+        data-nonce=""
+        data-auto_select="true"
+        data-itp_support="true"
+        data-use_fedcm_for_prompt="true"
+      ></div>
+      
+      <div
+        class="g_id_signin"
+        data-type="standard"
+        data-shape="pill"
+        data-theme="outline"
+        data-text="signin_with"
+        data-size="large"
+        data-logo_alignment="left"
+      ></div> -->
+        <div class="divider">───────────────────────────</div>
+        <p>
+            <span class="alreadyMember" data-key="alreadyMember">Already a member ?</span>
+            <a href="#" class="login" id="login" data-key="login">Log in</a></p>
+        </p> 
+    </div>
+
+        <div class="step step-password" style="display: none;">
+            <div class="header">
+                <i class="fa-solid fa-chevron-left" id="backToEmail" style=" left:35%; top:199px;"></i>
+                <p class="createPassword" data-key="createPassword">Create a password</p>
+            </div>
+            <div class="inputbox">
+                <input type="password" id="passwordInput" required="required" placeholder="">
+                <span id="password" data-key="password">Password</span>
+            </div>
+            <p data-key="passwordRequirments" style="margin-top: 8px; justify-content: flex-start;  width: 100%;">Your password must contain at least</p>
+            <ul style="list-style-type: none; font-size: 15px;">
+                <li id="number">
+                    <i class="fa-solid fa-circle"></i>
+                    <span data-key="number">1 number</span>
+                  </li>
+                  <li id="special-char">
+                    <i class="fa-solid fa-circle"></i>
+                    <span data-key="special-char">1 special character (example: # ? ! &)</span>
+                  </li>
+                  <li id="letter">
+                    <i class="fa-solid fa-circle"></i>
+                    <span data-key="letter">1 letter</span>
+                  </li>
+                  <li id="length">
+                    <i class="fa-solid fa-circle"></i>
+                    <span data-key="length">8 characters</span>
+                  </li>
+                      
+            </ul>
+            <button type="button" id="nextToProfileInfo" data-key="next" disabled>Next</button>
+        </div>
+
+        <div class="step step-profileInfo" style="display: none;">
+            <div class="back-btn-wrapper" >
+               <i class="fa-solid fa-chevron-left" id="backToPassword" style=" position: absolute; inset-inline-start: 35%; top: 152px;"></i>
+            </div>
+            <h2 data-key="basicInfo-h2" style="margin-top: 25px;">Profile Information</h2>
+            <div class="inputbox" style="margin-top: 25px; margin-bottom: 15px;">
+                <input type="text" id="fullName" required="required" placeholder="">
+                <span id="fullName-input" data-key="username">Username</span>
+            </div>
+            <div class="inputbox" id="passwordInput3" style="display: none; margin-bottom: 15px;">
+                <input type="text" id="password" required placeholder="">
+                <span id="password-input" data-key="password-input">Password</span>
+            </div>
+            <div class="inputbox" style="margin-bottom: 15px;">
+                <input type="text" id="location" required placeholder="">
+                <span id="License-input" data-key="License-input">License Number</span>
+            </div>
+            <div class="inputbox" style="margin-bottom: 14px;">
+                <p class="role"  style="margin-bottom: 6px; font-size: 12px;" data-key="roleKey">Choose Your Role</p>
+                <div class="flex" style="display: flex; gap: 40px;">
+                    <label style="display: flex; ">
+                        <input type="radio" name="userRole" value="owner" required  style=" width: 13px;  height: 13px; position: relative; top:10%;">
+                        <p style="font-size: 13px;  margin-left: 7px;" data-key="farmOwner">Farm Owner</p>
+                    </label>
+                    <label style=" display: flex; ">
+                        <input type="radio" name="userRole" value="representative" required style=" width: 13px;  height: 13px;  position: relative; top:10%">
+                        <p style="font-size: 13px; margin-left: 7px;" data-key="farmRepresentative">Farm Representative</p>
+                    </label>
+                </div>
+            </div>
+            <div id="dynamicInputContainer"></div>
+            <!-- <div class="inputbox" style=" margin-bottom: 14px;">
+                <p id="farm-span" data-key="farmDoc-input" style="margin-bottom: 6px; font-size: 12px;" >Upload Farm Documents (optional)</p></p>
+                <input type="file" accept=".pdf,.jpg,.jpeg,.png" id="farm-documents" style="color: rgba(112, 112, 112, 0.89);">
+            </div>  -->
+            <button type="button" id="chooseFarmBtn" data-key="chooseFarmBtn" >Choose Farm Location on Map</button>
+        </div>
+    </form>
+
+    <!-- Phone Number Form -->
+    <form class="form phoneNum" id="phoneForm" style="display: none;">
+        <i class="backToSignUp fa-solid fa-chevron-left" style=" position: absolute; inset-inline-start: 35%; top: 145px;"></i>
+
+        <h2 id="signupPhoneNum" data-key="signupPhoneNum">What is your <br>phone number</h2>
+        <p class="signUpwEmail"><a href="#" class="signUpwEmail" id="signUpwEmail" data-key="signUpwEmail">Sign up with email instead</a></p>
+        
+        <div class="form-group" >
+             <div class="phoneDetails"  dir="ltr">
+                 <input type="tel" id="phone"  name="phone" class="phone" data-key="phone"   dir="ltr"/>
+             </div>
+            <div class="opt-container" id="otpContainer" style="display: none;"> 
+                <h4 data-key="otp-h4">Enter OTP Code</h4>
+                <form action="#">
+                <div class="input-field">
+                    <input type="number" maxlength="1" />
+                    <input type="number" maxlength="1" disabled />
+                    <input type="number" maxlength="1" disabled />
+                    <input type="number" maxlength="1" disabled />
+                    <input type="number" maxlength="1" disabled />
+                    <input type="number" maxlength="1" disabled />
+                </div>
+                <p  data-key="expiryTxt" style="color:rgba(77, 77, 77, 0.858); margin-top: 5px !important;">The OTP code will expire in <span id="expire" style="font-size: 17px;">30 </span> s</p>
+                <button type="button" class="verify-btn" id="verify-btn" data-key="verify-btn" disabled>Verify OTP</button>
+                <p>
+                    <span id="requestACagainSpan" data-key="requestACagainSpan">Didn't recieve code?</span>
+                    <a href="#" id="requestACagain" data-key="requestACagain" style="color: rgba(198, 9, 9, 0.874);">Request again</a>
+                </p>
+                <p>
+                    <a href="#" id="diffPN" data-key="diffPN" style="color: rgba(112, 112, 112, 0.89);">Use a different phone number</a>
+                </p>
+                </form>
+            </div>
+            <button type="button" id="nextToOTP" data-key="createAccount">Next</button>
+        </div>
+    </form>
+
+    <!-- Signin Form -->
+    <form class="form signin" id="signinForm" style="display: none;">
+        <h2 id="signin" data-key="signin" style="margin-bottom: 20px !important;">Log in to <br>manage your farm</h2>
+        <i class="backToSignUp fa-solid fa-chevron-left"  style=" position: absolute; inset-inline-start: 35%; top: 152px;"></i>
+    
+        <div style="position: relative; display: inline-block;">
+            <button type="button" class="google-btn" data-key="log-google-btn">Log in using Google</button>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" 
+                style=" position: absolute; display: flex; top: 29px !important; margin-inline-start: 32px; justify-content: flex-start; width: 19px; height: 19px; " >
+                <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
+                <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path>
+                <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path>
+                <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
+            </svg>   
+            </div>
+
+        <button type="button" id="phone-btn" data-key="phone-btn">Log in with phone number</button>
+        <div class="divider">───────────────────────────</div>    
+        <div class="inputbox">
+            <input type="email" id="emailInputL" required="required" placeholder="">
+                        <span id="email-span" data-key="email-span">Email Address</span>
+            <p id="emailErrorL" class="emailErrorL" data-key="emailError" style="display: none; width: 100%; justify-content: flex-start; color: red; ">Please enter a valid email address.</p>
+        </div>
+        <div class="inputbox">
+            <input type="password" id="passwordInputL" required="required" placeholder="">
+                        <span id="passwordL" data-key="passwordL">Password</span>
+            <p id="passwordErrorL" class="passwordErrorL" data-key="passwordError" style="display: none; width: 100%; justify-content: flex-start; color: red; ">Please enter your password.</p>
+        </div>
+        <div class="inputbox">
+            <!-- <p id="logInError" class="logInError" data-key="logInError" style="display: none; width: 100%; justify-content: flex-start; color: red; ">Incorrect Email or Password.</p> -->
+            <p id="logInError" style=" width: 100%; justify-content: flex-start; color: red;"></p>
+
+          <button type="button" id="continueToDashboard" data-key="continueToDashboard">Log In</button>
+        </div>   
+        <p>
+            <span data-key="notRegistered">Not Registered ?</span>
+            <a href="#" class="create" id="createAccountLink" data-key="createAccountLink">Create an account</a>
+        </p>
+    </form>
+
+    <!-- sign up with access code -->
+    <form class="form signupAC" id="signupACForm" style="display: none; margin-top: 30px;" >
+        <div class="step ACStep">
+            <i class="backToSignUpAC fa-solid fa-chevron-left" style=" position: absolute; inset-inline-start: 35%; top: 159px;" ></i>
+            <h2 id="signupACh2" data-key="signupACh2">Sign up<br>using access code</h2>
+            <div class="inputbox">
+                <input type="text" required="required" placeholder="">
+                <span id="acessCode" data-key="acessCode">Access Code</span>
+            </div>
+            <div class="inputbox">
+                <button type="button" id="continueAC" data-key="createAccount">Continue</button>
+            </div>  
+        </div>
+        <!-- password and username for access code users-->
+        <div id="ACDetailsForm" style="display: none; margin-top: 40px;">
+            <i class="backToSignUpAC fa-solid fa-chevron-left" style=" position: absolute; inset-inline-start: -12%; top: 56px;" ></i>
+            <h2 id="signupACh2" data-key="signupACh2" style="width: 600px;">Sign up<br>using access code</h2>
+            <div class="inputbox">
+                <input type="text" required="required" placeholder="">
+                <span id="usernameAC" data-key="usernameAC">Username</span>
+            </div>  
+            <div class="inputbox">
+                <input type="password" required="required" placeholder="">
+                <span id="ACPW" data-key="ACPW">Password</span>
+            </div>
+            <div class="inputbox" style=" margin-bottom: 14px;">
+                <p id="farm-span" data-key="farmDoc-input" style="margin-bottom: 6px; font-size: 12px;" >Upload Personal Image</p></p>
+                <input type="file" accept="image/" onChange={handleFileChange} id="farm-documents" style="color: rgba(112, 112, 112, 0.89);">
+            </div> 
+            <div class="inputbox">
+                <button type="button" id="signUpAC" data-key="signUpAC">Sign Up</button>
+            </div>  
+        </div> 
+    </form>
+    </div>
+    <script src="js/translation.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script > 
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const signupForm = document.getElementById('signupForm');
+            const signinForm = document.getElementById('signinForm');
+            const signupACForm = document.getElementById('signupACForm');
+            const phoneForm = document.getElementById('phoneForm');
+            const otpContainer = document.getElementById('otpContainer');
+            const nextToOTP = document.getElementById('nextToOTP');
+            const verifyBtn = document.getElementById('verify-btn');
+            const expire = document.getElementById('expire'); 
+            const altBtn= document.querySelector('.alt-btn');
+            const continueAC = document.getElementById('continueAC');
+            const backToSignUpAC = document.querySelector('.backToSignUpAC');
+            const backToSignUp = document.querySelectorAll('.backToSignUp');
+            const passwordInput = document.getElementById('passwordInput');
+            const passwordInput3 = document.getElementById('passwordInput3');
+            const emailInputS = document.getElementById('emailInputS');
+            const emailError = document.getElementById('emailError');
+            const logInError = document.getElementById('logInError');
+            const backToPassword = document.getElementById('backToPassword');
+            const chooseFarmBtn = document.getElementById('chooseFarmBtn');
+            const nextToPassword = document.querySelector("#createAccount-password");
+            const step2password = document.querySelector('.step-password'); 
+            const step1email = document.querySelector('.step-email'); 
+            const backToEmail = document.getElementById('backToEmail');
+            const nextToProfileInfo = document.getElementById('nextToProfileInfo');
+            const step3profile = document.querySelector('.step-profileInfo'); 
+            const continueToDashboard = document.getElementById('continueToDashboard');
+            const urlParams = new URLSearchParams(window.location.search);
+            const verified = urlParams.get('verified');
+            const roleInputs = document.querySelectorAll('input[name="userRole"]');
+            const phonebtn = document.getElementById('phone-btn');
+            const phoneLink = document.getElementById('phoneNum');
+            const emailLink = document.getElementById('signUpwEmail');
+            const googleBtn = document.querySelector('.google-btn');
+            const requestACagain = document.getElementById('requestACagain');
+            const inputs = document.querySelectorAll(".input-field input");
+            const verifyButton = document.querySelector(".verify-btn");
+            const diffPN = document.getElementById('diffPN');
+            const ACDetailsForm =  document.getElementById('ACDetailsForm');
+            const ACStep = document.querySelector('.ACStep');
+            const loginLink = document.getElementById('login');
+
+            let signIn ;
+            let validPhoneNumber ='';
+            let signUpMethod ;
+            
+            const handleFileChange = () => {
+                
+            }
+            // log in 
+            continueToDashboard.addEventListener('click', async function(e){
+                e.preventDefault();
+                const email = document.getElementById('emailInputL').value.trim();
+                const password = document.getElementById('passwordInputL').value.trim();
+                let { data, error } = await supa.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+                const lang = localStorage.getItem("language") || "en";
+                //controlling the login button error messages 
+                if (error) {
+                        let message;
+
+                        if (error.message.toLowerCase().includes("missing email or phone")) {
+                            message =  "missingCredentials";
+                        } else if (error.message.toLowerCase().includes("invalid login credentials")) {
+                            message = "invalidLogin";
+                        }
+                        else {
+                            message = "unknownError";
+                        }
+                        logInError.innerText = translations.messages[lang][message] || "Login error.";
+                        return;
+                    } else { window.location.href = "/farmerDashboard.html";}
+            });
+
+            backToSignUpAC.addEventListener('click', function(e) {
+                e.preventDefault();
+                ACDetailsForm.style.display = 'none';
+                signupACForm.style.display = 'none';
+                signupForm.style.display = 'flex';
+                step1email.style.display = 'flex';
+                clearFormInputs(signupACForm);
+            });
+            // sign up with a different phone number 
+            diffPN.addEventListener('click', async function(e){
+                otpContainer.style.display = 'none';
+                document.getElementById("phone").value = "";
+                nextToOTP.style.display = 'flex';
+                nextToOTP.style.justifyContent = "center";
+                nextToOTP.style.alignItems = "center";
+            });
+            // resend verification code
+            requestACagain.addEventListener('click', async function(e){
+                signIn();
+                expire.innerText=30;
+                inputs.forEach(input => {input.value = ""});
+            });
+            // sign up using google 
+            googleBtn.addEventListener('click', async function(e){
+                e.preventDefault();
+                let { data, error } = await supa.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: {
+                    redirectTo: 'http://127.0.0.1:5500/signUp.html'
+                    }
+                });
+                if (error) {
+                    console.error('Error during Google sign-in:', error.message);
+                } else {
+                    console.log('Redirecting to Google OAuth...', data);
+                }
+            });
+            // sign up using phone number
+            phonebtn.addEventListener('click', function(){
+                phoneForm.style.display = 'flex';
+                signinForm.style.display = 'none';
+                emailLink.style.display = 'none';
+            });
+            // after the user recieves email verification, upon sign up using email, retrieve the session's data to store them
+            if (verified === 'true'){
+                // here we restore the session from the confirmation URL fragment
+                const { data, error } = await supa.auth.getSession();
+                if (error) {
+                    console.error("Session restore error:", error.message);
+                } else if (data?.session) {
+                    console.log("User session restored:", data.session);
+                }    
+                step3profile.style.display='flex';
+                step2password.style.display='none';
+                step1email.style.display = 'none';
+                const user = data.session.user;
+                console.log("Logged in user email:", user.email);
+                console.log("Logged in user id:", user.id);
+            }
+            // following is not working rn
+            // const dynamicInputContainer = document.getElementById('dynamicInputContainer');
+            // roleInputs.forEach((input) => {
+            //     input.addEventListener('change', () => {
+            //         const selectedRole = input.value;
+
+            //         if (selectedRole === 'owner') {
+            //         dynamicInputContainer.innerHTML = `
+            //             <div class="inputbox" style="margin-bottom: 15px;">
+            //                 <input type="text" id="location" required placeholder="">
+            //                 <span id="License-input" data-key="License-input">License Number</span>
+            //             </div>`;
+            //         } else if (selectedRole === 'representative') {
+            //         dynamicInputContainer.innerHTML = `
+            //             <div class="inputbox" style="margin-bottom: 15px;">
+            //                 <input type="text" id="companyId" required placeholder="">
+            //                 <span id="company-id" data-key="company-id">Company ID</span>
+            //             </div>`;
+            //         }
+            //     });
+            // });
+            // sign up and DB connection - to the user's table
+            chooseFarmBtn.addEventListener('click', async function (){
+                const fullName = document.getElementById("fullName").value;
+                console.log(fullName);
+                const role = document.querySelector('input[name="userRole"]:checked')?.value;
+                console.log(role);
+
+                if ( !fullName || !role) {
+                    alert("Please fill all required fields");
+                    return;
+                }
+                const { data: userData, error: userError } = await supa.auth.getUser();
+                const email = userData?.user?.email;
+                const user_id = userData?.user?.id;
+                console.log(email);
+                console.log(user_id);
+
+            try {
+                // inserting new user info into the users table
+                const { data, error } = await supa
+                    .from('users')
+                    .insert([{
+                        user_id: user_id,
+                        email: email,
+                        phoneNumber: validPhoneNumber,
+                        Username: fullName,
+                        role: role
+                    }]);
+                    console.log(data);
+
+                if (userError) throw userError;
+                window.location.href = "/markYourMap.html";
+
+            } catch (err) {
+                console.error("Signup Error:", err.message);
+                // alert("Signup failed: " + err.message);
+            }
+                    });
+            // here is when the verification email is sent, upon email & password sign up
+            nextToProfileInfo.addEventListener('click', async function(){
+                const email = document.getElementById("emailInputS").value;
+                const password = document.getElementById("passwordInput").value;
+                 // sign up with Supabase Auth --> the following steps sends the verification email
+                const { data: authData, error: authError } = await supa.auth.signUp({ // this addes the new user to auth()
+                    email: email,
+                    password: password,
+                    options: {
+                        emailRedirectTo: "http://127.0.0.1:5500/signUp.html?verified=true"
+                    }
+                });
+
+                if (authError) {
+                    console.error("Signup error:", authError.message);
+                } else {
+                    console.log("Check your email to confirm:", authData);}
+            });
+
+            backToPassword.addEventListener('click', function(e){
+                e.preventDefault();
+                if (signUpMethod === "phoneNumFirst"){
+                    phoneForm.style.display='flex';
+                    clearFormInputs(phoneForm);
+                    step3profile.style.display='none';
+                    passwordInput3.style.display = 'flex';
+                    // alert("Verification successful!");
+                }
+                else if (signUpMethod === "emailFirst"){
+                    step2password.style.display = 'flex';
+                    step3profile.style.display = 'none';
+                }
+                else {
+                    alert("Please select a sign-up method first.");
+                }
+
+
+                
+            });
+            function clearFormInputs(form) {
+                const inputs = form.querySelectorAll('input');
+                inputs.forEach(input => {
+                    input.value = '';
+                    if (input.type === 'number' && input.hasAttribute('disabled')) {
+                        input.setAttribute('disabled', true);
+                    }
+                });
+                // Special handling for OTP fields: only the first should be enabled
+                if (form.id === 'phoneForm') {
+                    const otpInputs = form.querySelectorAll('.input-field input');
+                    if (otpInputs.length) {
+                        otpInputs.forEach((input, idx) => {
+                            input.value = '';
+                            if (idx === 0) {
+                                input.removeAttribute('disabled');
+                            } else {
+                                input.setAttribute('disabled', true);
+                            }
+                        });
+                    }
+                    // Hide OTP container and show next button
+                    document.getElementById('otpContainer').style.display = 'none';
+                    document.getElementById('nextToOTP').style.display = '';
+                }
+            }
+
+            function OTPinterval(){
+                // setting time for the code expiry, 30 seconds
+                expire.innerText = 30;
+                const expireInterval =  setInterval(function(){
+                    expire.innerText--;
+                    if (expire.innerText==0) clearInterval(expireInterval);
+                }, 1000);
+            }
+            // shows signin form, hide signup form
+            loginLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                clearFormInputs(signupForm);
+                clearFormInputs(phoneForm);
+                signupForm.style.display = 'none';
+                phoneForm.style.display = 'none';
+                signinForm.style.display = 'flex';
+            });
+         
+            backToEmail.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    step2password.style.display = 'none';
+                    step1email.style.display = 'flex';
+                });
+
+            nextToPassword.addEventListener('click', function(e){
+                const emailValue = emailInputS.value.trim();
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                if (emailValue === '' || !emailRegex.test(emailValue)){
+                    e.preventDefault();
+                    emailError.style.display = 'flex';
+
+                } else {
+                    step2password.style.display = 'flex';
+                    step1email.style.display = 'none';
+                    emailError.style.display = 'none';
+                }
+            });
+            
+            const signupAC = document.querySelector('.signupAC');
+            altBtn.addEventListener('click', function(){
+                signUpMethod = 'accessCode';
+                signupAC.style.display='flex';
+                step1email.style.display='none';
+            });
+
+            continueAC.addEventListener('click', function(){
+                signupAC.style.display='none';
+                phoneForm.style.display='flex';
+            });
+                
+        backToSignUp.forEach(icon => {
+          icon.addEventListener('click', function (e) {
+            e.preventDefault();
+            // Hide all forms
+            const formsID = ['signupACForm', 'signinForm', 'phoneForm'];
+            formsID.forEach(id => {
+                const form = document.getElementById(id);
+                if (form) form.style.display = 'none';
+            });
+            // Show only signup form
+            signupForm.style.display = 'flex';
+            step1email.style.display = 'flex';
+            });
+            });
+
+            passwordInput.addEventListener("input", function(){
+                const value = passwordInput.value;
+                const hasLength = value.length >= 8;
+                const hasNumber = /\d/.test(value);
+                const hasLetter = /[a-zA-Z]/.test(value);
+                const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+
+                // update accordingly
+                toggleValid("length", hasLength);
+                toggleValid("number", hasNumber);
+                toggleValid("letter", hasLetter);
+                toggleValid("special-char", hasSpecial);
+
+                if (hasLength && hasNumber && hasLetter && hasSpecial) {
+                    nextToProfileInfo.disabled = false;
+                } else {
+                    nextToProfileInfo.disabled = true;
+                }
+            });
+
+          
+            function toggleValid(id, isValid){
+                const el = document.getElementById(id);
+                if (isValid) {
+                    el.classList.add("valid");
+                } else {
+                    el.classList.remove("valid");
+                }
+            }
+            // OTP next button
+            const phoneNumberInput = document.querySelector("#phone");
+            // errorMsg= document.querySelector('#invalid-msg');
+            var iti = window.intlTelInput(phoneNumberInput, {
+                initialCountry: "ae",
+                nationalMode:true,
+                autoPlaceholder: "polite",
+                placeholderNumberType: "MOBILE",
+                loadUtils: () => import("https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"),
+            });
+
+            // for the validation of numbers
+            nextToOTP.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (phoneNumberInput.value.trim()){
+                    if (iti.isValidNumber()){
+                       nextToOTP.style.display = 'none';
+                       otpContainer.style.display = 'flex';
+                       validPhoneNumber = iti.getNumber(); 
+                       signIn = async() => {
+                        let {error} = await supa.auth.signInWithOtp(
+                            { phone: validPhoneNumber}
+                        )
+                        if (error) {
+                            console.error(error);
+                            alert("Error sending OTP: " + error.message);
+                            return;
+                        }
+                        console.log("OTP sent successfully to", validPhoneNumber);
+                       };
+                       signIn(); 
+                       OTPinterval();
+                    } else {
+                        alert("Invalid phone number for selected country");
+                    } 
+                } else {
+                        alert("Please enter your phone number.");
+                    }
+        });
+        
+            // show signup form, hide signin form
+            const createLink = document.getElementById('createAccountLink');
+            createLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                clearFormInputs(signinForm);
+                clearFormInputs(phoneForm);
+                signinForm.style.display = 'none';
+                phoneForm.style.display = 'none';
+                signupForm.style.display = 'flex';
+            });
+            
+            // Phone number link - show phone form, hide signup form
+            phoneLink.addEventListener('click', function(e) {
+                signUpMethod = 'phoneNumFirst';
+                e.preventDefault();
+                clearFormInputs(signupForm);
+                clearFormInputs(signinForm);
+                signupForm.style.display = 'none';
+                signinForm.style.display = 'none';
+                phoneForm.style.display = 'flex';
+                // emailLink.style.display ;
+            });
+            
+            // Sign up with email link - show signup form, hide phone form
+            emailLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                clearFormInputs(phoneForm);
+                clearFormInputs(signinForm);
+                phoneForm.style.display = 'none';
+                signinForm.style.display = 'none';
+                signupForm.style.display = 'flex';
+            });
+
+            // OTP Input functionality
+            inputs.forEach((input, index1) => {
+                input.addEventListener("keyup", (e) => {
+                    const currentInput = input;
+                    const nextInput = input.nextElementSibling;
+                    const prevInput = input.previousElementSibling;
+
+                    if (currentInput.value.length > 1) {
+                        currentInput.value = currentInput.value.slice(0, 1);
+                    }
+
+                    if (nextInput && nextInput.hasAttribute("disabled") && currentInput.value !== "") {
+                        nextInput.removeAttribute("disabled");
+                        nextInput.focus();
+                    }
+
+                    if (e.key === "Backspace") {
+                        inputs.forEach((input, index2) => {
+                            if (index1 <= index2 && prevInput) {
+                                input.setAttribute("disabled", true);
+                                input.value = "";
+                                prevInput.focus();
+                            }
+                        });
+                    }
+
+                    if (!inputs[5].disabled && inputs[5].value !== "") {
+                        verifyButton.classList.add("active");
+                        verifyBtn.disabled= false;
+                        return;
+                    }
+                    verifyButton.classList.remove("active");
+                });
+            });
+
+            verifyBtn.addEventListener('click', ()=> {
+                // concatenate all the 6 inputs of the ver. code
+                const otpValue = Array.from(inputs).map(input => input.value).join("");
+
+                const verify = async() => {
+                        let { data, error } = await supa.auth.verifyOtp({
+                        phone: validPhoneNumber,
+                        token: otpValue,
+                        type: 'sms'
+                        });
+                if (error) {
+                    console.error("OTP verification failed:", error.message);
+                } else {
+                console.log("OTP verified successfully!", data);
+                if (signUpMethod === "phoneNumFirst"){
+                    phoneForm.style.display='none';
+                    signupForm.style.display='flex';
+                    step1email.style.display='none';
+                    step3profile.style.display='flex';
+
+                    // alert("Verification successful!");
+                }
+                else if (signUpMethod === "accessCode"){
+                    phoneForm.style.display='none';
+                    signupAC.style.display='flex';
+                    ACStep.style.display = 'none';
+                    ACDetailsForm.style.display = 'flex';
+
+                }
+                else {
+                    alert("Please select a sign-up method first.");
+                }
+                };
+            }
+                verify();
+            });
+
+            // Focus the first input on window load
+            window.addEventListener("load", () => inputs[0].focus());
+        });
+    </script>
+</body>
+</html>
